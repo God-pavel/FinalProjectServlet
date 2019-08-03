@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/app/index"><fmt:message key="navbar.name"/></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/app/main"><fmt:message key="navbar.main"/></a>
+            </li>
+            <c:if test="${sessionScope.role == 'ADMIN'}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/users"><fmt:message key="navbar.users"/></a>
+                </li>
+            </c:if>
+            <li class="nav-item">
+                <a class="nav-link" href="/app/registration"><fmt:message key="navbar.registration"/></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/app/login">Login</a>
+            </li>
+            <c:if test="${sessionScope.role == 'MERCHANDISER'}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/merchandise"><fmt:message key="navbar.merchandise"/></a>
+                </li>
+
+            </c:if>
+            <c:if test="${sessionScope.role == 'SENIOR_CASHIER'}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/report"><fmt:message key="navbar.report"/></a>
+                </li>
+            </c:if>
+        </ul>
+
+
+        <span style="float: right">
+                        <a href="?lang=en"><fmt:message key="language.en"/></a>
+                        |
+                        <a href="?lang=ua"><fmt:message key="language.ua"/></a>
+        </span>
+        <div class="navbar-text mr-3 ml-3">${sessionScope.username}</div>
+        <div>
+            <form action="/app/logout" method="post">
+                <c:if test="${sessionScope.user != null}">
+                    <button class="btn btn-primary" type="submit">Log out</button>
+                </c:if>
+            </form>
+        </div>
+    </div>
+</nav>

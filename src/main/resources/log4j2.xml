@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" strict="true" name="XMLConfigTest"
+               packages="org.apache.logging.log4j.test">
+    <Appenders>
+        <Console name="consoleAppender">
+            <PatternLayout pattern="%d{dd.MM HH:mm:ss,SSS} [%t] %highlight{%-5level} %c{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.pasha.trainingcourse" level="TRACE" additivity="false">
+            <AppenderRef ref="consoleAppender"/>
+        </Logger>
+        <Root level="ERROR">
+            <AppenderRef ref="consoleAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
