@@ -38,7 +38,7 @@
                         <td>${user.id}</td>
                         <td>${user.username}</td>
                         <td>${user.password}</td>
-                        <td>${user.role}</td>
+                        <td>${user.roles}</td>
                         <td><a href="app/userEdit/${requestScope.user.id}"><fmt:message key="users.edit"/></a></td>
                     </tr>
                 </c:forEach>

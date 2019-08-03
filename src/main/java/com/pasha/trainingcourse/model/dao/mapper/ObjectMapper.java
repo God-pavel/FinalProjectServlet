@@ -8,6 +8,6 @@ public interface ObjectMapper<T> {
 
     T extractFromResultSet(ResultSet rs) throws SQLException;
 
-    T makeUnique(Map<Long, T> cache,
-                 T teacher);
+    void makeUnique(Map<Long, T> cache,
+                 T teacher, ResultSet rs) throws  SQLException;
 }

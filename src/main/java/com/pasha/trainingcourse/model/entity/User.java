@@ -10,24 +10,8 @@ public class User {
 
     private String username;
     private String password;
-    private Role role;
+    private Set<Role> roles;
 
-    public boolean isAdmin() {
-        return role.equals(Role.ADMIN);
-    }
-
-    public boolean isSeniorCashier() {
-        return role.equals(Role.SENIOR_CASHIER);
-    }
-
-    public boolean isUser() {
-        return role.equals(Role.USER);
-    }
-
-
-    public boolean isMerchandiser() {
-        return role.equals(Role.MERCHANDISER);
-    }
 
     public Long getId() {
         return id;
@@ -54,25 +38,28 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Set <Role> roles) {
+        this.roles = roles;
     }
 
-    public User(Long id, String username, String password, Role role) {
+    public User(Long id, String username, String password, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
-    public User(String username, String password, Role role) {
+    public User() {
+    }
+
+    public User(String username, String password, Set <Role> roles) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
     @Override
@@ -81,7 +68,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", role=" + roles.toString() +
                 '}';
     }
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LoginCommand implements Command {
 
@@ -37,12 +38,14 @@ public class LoginCommand implements Command {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUsername());
-            session.setAttribute("role", user.getRole());
-            Set<Role> allRoles = new HashSet<>();
-            allRoles.add(Role.USER);
-            allRoles.add(Role.ADMIN);
-            allRoles.add(Role.MERCHANDISER);
-            allRoles.add(Role.SENIOR_CASHIER);
+            Set<String> userRoles = user.getRoles().stream().map(Enum::name)
+                    .collect(Collectors.toSet());
+            session.setAttribute("userRoles", userRoles);
+            Set<String> allRoles = new HashSet<>();
+            allRoles.add("USER");
+            allRoles.add("ADMIN");
+            allRoles.add("MERCHANDISER");
+            allRoles.add("SENIOR_CASHIER");
             session.setAttribute("roles", allRoles);
             return "redirect:/index";
         } else {

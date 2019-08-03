@@ -8,10 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JDBCUserDao implements UserDao {
     private Connection connection;
@@ -19,39 +16,56 @@ public class JDBCUserDao implements UserDao {
 
 
     public JDBCUserDao(Connection connection) {
-        log.info("try to get connection at JDBCUserDao");
         this.connection = connection;
-        log.info("got connection at JDBCUserDao");
-        log.info(connection);
-        if(findByUsername("admin")==null) {
-            create(new User("admin", "1", Role.ADMIN));
+        if (findByUsername("admin") == null) {
+            create(new User("admin", "1", Set.of(Role.values())));
         }
     }
 
     @Override
     public void create(User entity) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("insert into user(username, password, role) values (?, ?, ?)")) {
+                     connection.prepareStatement("insert into user(username, password) values (?, ?)")) {
             ps.setString(1, entity.getUsername());
             ps.setString(2, entity.getPassword());
-            ps.setString(3, entity.getRole().name());
             ps.executeUpdate();
+            insertRolesToDb(entity.getRoles(), entity.getUsername());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    @Override
-    public User findByUsername(String username){
-        UserMapper userMapper = new UserMapper();
+    private void insertRolesToDb(Set<Role> roles, String username) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from user where username = ?")) {
+                     connection.prepareStatement("insert into user_roles(user_username, role) values (?, ?)")) {
+            for (Role role : roles) {
+                ps.setString(1, username);
+                ps.setString(2, role.name());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        UserMapper userMapper = new UserMapper();
+        Map<Long, User> users = new HashMap<>();
+        try (PreparedStatement ps =
+                     connection.prepareStatement("select * from user u left join user_roles ur on u.username = ur.user_username where username =?")) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
-                return userMapper.extractFromResultSet(rs);
+                User user = userMapper.extractFromResultSet(rs);
+                while (rs.next()) {
+                    userMapper.completeRoles(user, rs);
+                }
+                return user;
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -69,20 +83,16 @@ public class JDBCUserDao implements UserDao {
 
         Map<Long, User> users = new HashMap<>();
 
-        final String query = " select * from user";
+        final String query = "select * from user u left join user_roles ur on u.username = ur.user_username";
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(query);
-
 
             UserMapper userMapper = new UserMapper();
 
             while (rs.next()) {
                 User user = userMapper
                         .extractFromResultSet(rs);
-
-                user = userMapper
-                        .makeUnique(users, user);
-
+                userMapper.makeUnique(users, user, rs);
             }
             return new ArrayList<>(users.values());
         } catch (SQLException e) {

@@ -22,11 +22,8 @@ public class JDBCDaoFactory extends DaoFactory {
 
     private Connection getConnection(){
         try {
-            log.info("try to get connection at JDBCUserDao");
-
             return dataSource.getConnection();
         } catch (SQLException e) {
-            log.info("catch  at JDBCUserDao");
             throw new RuntimeException(e);
         }
     }

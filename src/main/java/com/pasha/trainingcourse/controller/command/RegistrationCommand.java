@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Objects;
 
 
@@ -24,12 +25,13 @@ public class RegistrationCommand implements Command {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+
         if (!(Objects.nonNull(username) &&
                 Objects.nonNull(password))) {
             return "/registration.jsp";
         }
 
-        User user = new User(username,password,Role.USER);
+        User user = new User(username,password, Collections.singleton(Role.USER));
 
 
         log.info("User to be registered: " + user);

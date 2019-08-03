@@ -13,17 +13,29 @@ public class UserMapper implements ObjectMapper<User> {
 
     @Override
     public User extractFromResultSet(ResultSet rs) throws SQLException {
-        return new User(rs.getLong("id"),
-                rs.getString("username"),
-                rs.getString("password"),
-                Role.valueOf(rs.getString("role")));
+        Set<Role> roles = new HashSet<>();
+        Long id = rs.getLong("id");
+        String username = rs.getString("username");
+        String password = rs.getString("password");
+        roles.add(Role.valueOf(rs.getString("role")));
+        return new User(id, username,password,roles);
+    }
+
+    public void completeRoles(User user, ResultSet rs) throws SQLException{
+       user.getRoles().add(Role.valueOf(rs.getString("role")));
     }
 
     @Override
-    public User makeUnique(Map<Long, User> cache,
-                           User user) {
-        cache.putIfAbsent(user.getId(), user);
-        return cache.get(user.getId());
+    public void makeUnique(Map<Long, User> cache,
+                           User user, ResultSet rs) throws SQLException{
+        if (cache.keySet().contains(user.getId())){
+
+            cache.get(user.getId()).getRoles().add(Role.valueOf(rs.getString("role")));
+        }
+        else {
+            cache.put(user.getId(), user);
+        }
+
     }
 
 }

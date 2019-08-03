@@ -26,11 +26,9 @@
         <input type="text" name="username" value="${sessionScope.username}">
         <c:forEach var="role" items="${sessionScope.roles}">
         <div>
-            <label><input type="checkbox" name="${role}">${role}</label>
+            <label><input type="checkbox" name="roles" value=${role}>${role}</label>
         </div>
         </c:forEach>
-    <input type="hidden" name="userId" value="${sessionScope.user}">
-    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
     <button type="submit"><fmt:message key= "merchandise.save"/></button>
     </form>
 </div>

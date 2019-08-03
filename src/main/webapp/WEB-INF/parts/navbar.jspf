@@ -10,7 +10,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/app/main"><fmt:message key="navbar.main"/></a>
             </li>
-            <c:if test="${sessionScope.role == 'ADMIN'}">
+            <c:if test="${sessionScope.userRoles.contains('ADMIN')}">
                 <li class="nav-item">
                     <a class="nav-link" href="/app/users"><fmt:message key="navbar.users"/></a>
                 </li>
@@ -21,13 +21,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="/app/login">Login</a>
             </li>
-            <c:if test="${sessionScope.role == 'MERCHANDISER'}">
+            <c:if test="${sessionScope.userRoles.contains('MERCHANDISER')}">
                 <li class="nav-item">
                     <a class="nav-link" href="/app/merchandise"><fmt:message key="navbar.merchandise"/></a>
                 </li>
 
             </c:if>
-            <c:if test="${sessionScope.role == 'SENIOR_CASHIER'}">
+            <c:if test="${sessionScope.userRoles.contains('SENIOR_CASHIER')}">
                 <li class="nav-item">
                     <a class="nav-link" href="/app/report"><fmt:message key="navbar.report"/></a>
                 </li>
