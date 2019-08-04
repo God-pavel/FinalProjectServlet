@@ -1,12 +1,10 @@
 package com.pasha.trainingcourse.controller.command;
 
-import com.pasha.trainingcourse.model.Role;
 import com.pasha.trainingcourse.model.entity.User;
 import com.pasha.trainingcourse.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 

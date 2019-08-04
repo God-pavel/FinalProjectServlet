@@ -1,4 +1,4 @@
-package com.pasha.trainingcourse.model;
+package com.pasha.trainingcourse.model.entity.enums;
 
 public enum Role {
     USER,

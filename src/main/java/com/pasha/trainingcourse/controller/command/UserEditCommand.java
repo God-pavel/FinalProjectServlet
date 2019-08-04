@@ -1,6 +1,6 @@
 package com.pasha.trainingcourse.controller.command;
 
-import com.pasha.trainingcourse.model.Role;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.entity.User;
 import com.pasha.trainingcourse.model.service.UserService;
 

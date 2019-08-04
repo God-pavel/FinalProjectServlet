@@ -1,6 +1,6 @@
 package com.pasha.trainingcourse.model.entity;
 
-import com.pasha.trainingcourse.model.Role;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 
 import java.util.Set;
 

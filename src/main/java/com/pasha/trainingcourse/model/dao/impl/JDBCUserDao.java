@@ -1,6 +1,6 @@
 package com.pasha.trainingcourse.model.dao.impl;
 
-import com.pasha.trainingcourse.model.Role;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.dao.UserDao;
 import com.pasha.trainingcourse.model.dao.mapper.UserMapper;
 import com.pasha.trainingcourse.model.entity.User;

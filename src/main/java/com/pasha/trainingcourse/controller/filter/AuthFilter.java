@@ -1,7 +1,7 @@
 package com.pasha.trainingcourse.controller.filter;
 
 
-import com.pasha.trainingcourse.model.Role;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.entity.User;
 
 import javax.servlet.*;
@@ -52,15 +52,10 @@ public class AuthFilter implements Filter {
         List<String> paths = new ArrayList<>();
 
         for (Role role : user.getRoles()) {
-            System.out.println("Role: " + role.name() + ", role paths: " + allowedPathPatterns.get(role));
             paths.addAll(allowedPathPatterns.get(role));
-            System.out.println("All paths: " + paths);
         }
         boolean contains = false;
         for (String key : paths) {
-            System.out.println("______________________________");
-            System.out.println("Request URI: " + requestURI + ", key: " + key);
-            System.out.println("______________________________");
             if (requestURI.contains(key)) {
                 contains = true;
                 filterChain.doFilter(request, response);

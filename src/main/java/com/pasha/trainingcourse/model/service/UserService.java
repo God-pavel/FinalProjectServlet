@@ -1,6 +1,5 @@
 package com.pasha.trainingcourse.model.service;
 
-import com.pasha.trainingcourse.model.Role;
 import com.pasha.trainingcourse.model.dao.DaoFactory;
 import com.pasha.trainingcourse.model.dao.UserDao;
 import com.pasha.trainingcourse.model.entity.User;
@@ -9,8 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public class UserService {
     private static final Logger log = LogManager.getLogger();

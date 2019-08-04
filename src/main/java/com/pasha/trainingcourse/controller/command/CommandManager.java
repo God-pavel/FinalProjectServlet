@@ -1,5 +1,6 @@
 package com.pasha.trainingcourse.controller.command;
 
+import com.pasha.trainingcourse.model.service.ProductService;
 import com.pasha.trainingcourse.model.service.UserService;
 
 import java.util.HashMap;
@@ -8,15 +9,16 @@ import java.util.Map;
 public class CommandManager {
     private static CommandManager commandManager;
     private final Map<String, Command> commandMap = new HashMap<>();
-    private UserService userService = new UserService();
+
 
     private CommandManager() {
-        commandMap.put("/users", new GetAllUsersCommand(userService));
-        commandMap.put("/login", new LoginCommand(userService));
-        commandMap.put("/registration", new RegistrationCommand(userService));
+        commandMap.put("/users", new GetAllUsersCommand(new UserService()));
+        commandMap.put("/login", new LoginCommand(new UserService()));
+        commandMap.put("/registration", new RegistrationCommand(new UserService()));
         commandMap.put("/logout", new LogoutCommand());
-        commandMap.put("/userEdit", new UserEditCommand(userService));
+        commandMap.put("/userEdit", new UserEditCommand(new UserService()));
         commandMap.put("/index", new IndexCommand());
+        commandMap.put("/storage", new StorageCommand(new ProductService()));
     }
 
     public static CommandManager getInstance() {

@@ -6,7 +6,7 @@ import com.pasha.trainingcourse.model.dao.impl.JDBCDaoFactory;
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;
 
-
+    public abstract ProductDao createProductDao();
     public abstract UserDao createUserDao();
 
     public static DaoFactory getInstance(){
