@@ -37,13 +37,22 @@ public class JDBCUserDao implements UserDao {
     }
 
     private void insertRolesToDb(Set<Role> roles, String username) {
-        try (PreparedStatement ps =
-                     connection.prepareStatement("insert into user_roles(user_username, role) values (?, ?)")) {
-            for (Role role : roles) {
-                ps.setString(1, username);
-                ps.setString(2, role.name());
-                ps.executeUpdate();
+        try {
+            PreparedStatement st = connection.prepareStatement("select id from user where username=?");
+            st.setString(1,username);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                Long id = rs.getLong("id");
+                PreparedStatement ps =
+                        connection.prepareStatement("insert into user_roles(user_id, role) values (?, ?)");
+                for (Role role : roles) {
+                    ps.setLong(1, id);
+                    ps.setString(2, role.name());
+                    ps.executeUpdate();
+                }
             }
+            else throw new SQLException();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -54,27 +63,27 @@ public class JDBCUserDao implements UserDao {
         UserMapper userMapper = new UserMapper();
         Map<Long, User> users = new HashMap<>();
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from user u left join user_roles ur on u.username = ur.user_username where username =?")) {
+                     connection.prepareStatement("select * from user u left join user_roles ur on u.id = ur.user_id where username =?")) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                User user = userMapper.extractFromResultSet(rs);
-                while (rs.next()) {
-                    userMapper.completeRoles(user, rs);
-                }
-                return user;
-            }
-
+            return userMapper.extractFromRsWithALLRoles(rs);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public User findById(Long id) {
-        return null;
+        UserMapper userMapper = new UserMapper();
+        Map<Long, User> users = new HashMap<>();
+        try (PreparedStatement ps =
+                     connection.prepareStatement("select * from user u left join user_roles ur on u.id = ur.user_id where id =?")) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            return userMapper.extractFromRsWithALLRoles(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -83,7 +92,7 @@ public class JDBCUserDao implements UserDao {
 
         Map<Long, User> users = new HashMap<>();
 
-        final String query = "select * from user u left join user_roles ur on u.username = ur.user_username";
+        final String query = "select * from user u left join user_roles ur on u.id = ur.user_id";
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(query);
 
@@ -103,7 +112,26 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public void update(User entity) {
+        try (PreparedStatement ps =
+                     connection.prepareStatement("update user set username=? where id=?")) {
+            ps.setString(1, entity.getUsername());
+            ps.setLong(2, entity.getId());
+            ps.executeUpdate();
+            updateRoles(entity.getRoles(), entity.getUsername(), entity.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void updateRoles(Set<Role> roles, String username, Long id) {
+        try (PreparedStatement ps =
+                     connection.prepareStatement("delete from user_roles where user_id=?;")) {
+            ps.setLong(1, id);
+            ps.execute();
+            insertRolesToDb(roles, username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

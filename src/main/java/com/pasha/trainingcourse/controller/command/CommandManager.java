@@ -16,6 +16,7 @@ public class CommandManager {
         commandMap.put("/registration", new RegistrationCommand(userService));
         commandMap.put("/logout", new LogoutCommand());
         commandMap.put("/userEdit", new UserEditCommand(userService));
+        commandMap.put("/index", new IndexCommand());
     }
 
     public static CommandManager getInstance() {
@@ -29,7 +30,12 @@ public class CommandManager {
         return commandManager;
     }
 
+
     public Command getCommand(String commandName) {
-        return commandMap.getOrDefault(commandName, r -> "/index.jsp");
+        for(String key : commandMap.keySet()){
+            if(commandName.contains(key)) return commandMap.get(key);
+        }
+
+        return commandMap.get("/index");
     }
 }

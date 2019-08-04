@@ -41,12 +41,6 @@ public class LoginCommand implements Command {
             Set<String> userRoles = user.getRoles().stream().map(Enum::name)
                     .collect(Collectors.toSet());
             session.setAttribute("userRoles", userRoles);
-            Set<String> allRoles = new HashSet<>();
-            allRoles.add("USER");
-            allRoles.add("ADMIN");
-            allRoles.add("MERCHANDISER");
-            allRoles.add("SENIOR_CASHIER");
-            session.setAttribute("roles", allRoles);
             return "redirect:/index";
         } else {
             request.setAttribute("message", true);

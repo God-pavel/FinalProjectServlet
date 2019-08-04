@@ -21,14 +21,18 @@
 <%@include file="/WEB-INF/parts/navbar.jspf" %>
 <div class="container mt-4">
     <h3><fmt:message key= "page.user"/></h3>
+    <c:if test="${requestScope.error}">
+        <div class="alert alert-danger" role="alert"><fmt:message key="message.exist.user"/></div>
+    </c:if>
 
-    <form action="/userEdit" method="post">
-        <input type="text" name="username" value="${sessionScope.username}">
-        <c:forEach var="role" items="${sessionScope.roles}">
+    <form action="/app/userEdit/${requestScope.user.id}" method="post">
+        <input type="text" name="username" value="${requestScope.user.username}">
+        <c:forEach var="role" items="${requestScope.allRoles}">
         <div>
             <label><input type="checkbox" name="roles" value=${role}>${role}</label>
         </div>
         </c:forEach>
+        <%--<input type="hidden" name="userId" value="${requestScope.user.id}">--%>
     <button type="submit"><fmt:message key= "merchandise.save"/></button>
     </form>
 </div>

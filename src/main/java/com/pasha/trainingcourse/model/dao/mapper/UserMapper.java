@@ -21,8 +21,19 @@ public class UserMapper implements ObjectMapper<User> {
         return new User(id, username,password,roles);
     }
 
-    public void completeRoles(User user, ResultSet rs) throws SQLException{
+    private void completeRoles(User user, ResultSet rs) throws SQLException{
        user.getRoles().add(Role.valueOf(rs.getString("role")));
+    }
+
+    public User extractFromRsWithALLRoles(ResultSet rs) throws SQLException{
+        if (rs.next()) {
+            User user = extractFromResultSet(rs);
+            while (rs.next()) {
+                completeRoles(user, rs);
+            }
+            return user;
+        }
+        return null;
     }
 
     @Override

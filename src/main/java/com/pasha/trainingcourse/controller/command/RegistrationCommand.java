@@ -33,9 +33,6 @@ public class RegistrationCommand implements Command {
 
         User user = new User(username,password, Collections.singleton(Role.USER));
 
-
-        log.info("User to be registered: " + user);
-
         if (userService.registerUser(user)) {
             log.info("User successfully registered");
             return "redirect:/login";

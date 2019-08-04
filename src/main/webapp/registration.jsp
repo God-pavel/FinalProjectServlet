@@ -23,7 +23,7 @@
     <h3><fmt:message key="page.registration"/></h3>
 
     <c:if test="${requestScope.error}">
-        <div class="alert alert-danger" role="alert">Smth wrong</div>
+        <div class="alert alert-danger" role="alert"><fmt:message key="message.exist.user"/></div>
     </c:if>
 
     <form action="${pageContext.request.contextPath}/app/registration" method="post">
