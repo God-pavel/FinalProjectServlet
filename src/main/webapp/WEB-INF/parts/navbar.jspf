@@ -7,20 +7,33 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <c:if test="${sessionScope.userRoles.contains('USER')||sessionScope.userRoles.contains('SENIOR_CASHIER')}">
             <li class="nav-item">
                 <a class="nav-link" href="/app/main"><fmt:message key="navbar.main"/></a>
             </li>
+            </c:if>
             <c:if test="${sessionScope.userRoles.contains('ADMIN')}">
                 <li class="nav-item">
                     <a class="nav-link" href="/app/users"><fmt:message key="navbar.users"/></a>
                 </li>
             </c:if>
+            <c:if test="${sessionScope.userRoles==null}">
             <li class="nav-item">
                 <a class="nav-link" href="/app/registration"><fmt:message key="navbar.registration"/></a>
             </li>
+            </c:if>
+            <c:if test="${sessionScope.userRoles==null}">
             <li class="nav-item">
                 <a class="nav-link" href="/app/login">Login</a>
             </li>
+            </c:if>
+            <c:if test="${sessionScope.userRoles.contains('USER')||
+            sessionScope.userRoles.contains('SENIOR_CASHIER')||
+            sessionScope.userRoles.contains('MERCHANDISER')}">
+            <li class="nav-item">
+                <a class="nav-link" href="/app/storage"><fmt:message key="navbar.storage"/></a>
+            </li>
+            </c:if>
             <c:if test="${sessionScope.userRoles.contains('MERCHANDISER')}">
                 <li class="nav-item">
                     <a class="nav-link" href="/app/merchandise"><fmt:message key="navbar.merchandise"/></a>

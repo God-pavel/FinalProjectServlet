@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -18,31 +18,10 @@
           crossorigin="anonymous">
 </head>
 <body>
-<%@include file="/WEB-INF/parts/navbar.jspf" %>
+<%@include file="/WEB-INF/parts/navbar.jspf"%>
 <div class="container mt-4">
-    <h3><fmt:message key="page.login"/></h3>
-    <c:if test="${requestScope.message}">
-        <div class="alert alert-danger" role="alert"><fmt:message key="message.invalid"/></div>
-    </c:if>
-    <form action="/app/login" method="post">
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> <fmt:message key="registration.username"/></label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" name="username" required/>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> <fmt:message key="registration.password"/></label>
-            <div class="col-sm-6">
-                <input type="password" class="form-control" name="password" required/>
-            </div>
-        </div>
+    <h3><fmt:message key="page.forbidden"/></h3>
 
-
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button class="btn btn-primary" type="submit"><fmt:message key="login.enter"/></button>
-    </form>
-    <fmt:message key="login.ask"/> <a href="/app/registration"> <fmt:message key="login.link"/> </a>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
