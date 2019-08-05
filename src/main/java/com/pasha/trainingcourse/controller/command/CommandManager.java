@@ -19,6 +19,7 @@ public class CommandManager {
         commandMap.put("/userEdit", new UserEditCommand(new UserService()));
         commandMap.put("/index", new IndexCommand());
         commandMap.put("/storage", new StorageCommand(new ProductService()));
+        commandMap.put("/merchandise", new AddProductCommand(new ProductService()));
     }
 
     public static CommandManager getInstance() {

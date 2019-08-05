@@ -31,6 +31,8 @@
                     <th><fmt:message key="storage.product"/></th>
                     <th><fmt:message key="storage.amount"/></th>
                     <th><fmt:message key="storage.price"/></th>
+                    <th><fmt:message key="storage.type"/></th>
+                    <th><fmt:message key="users.edit"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,8 +42,9 @@
                         <td>${product.name}</td>
                         <td>${product.amount}</td>
                         <td>${product.price}</td>
+                        <td>${product.productType.name()}</td>
                         <c:if test="${sessionScope.userRoles.contains('MERCHANDISER')}">
-                            <td><a href="/storage/${product.id}"><fmt:message key="users.edit"/></a></td>
+                            <td><a href="/app/storage/${product.id}"><fmt:message key="users.edit"/></a></td>
                         </c:if>
                     </tr>
                 </c:forEach>
