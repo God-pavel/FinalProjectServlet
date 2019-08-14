@@ -20,6 +20,15 @@ public class ProductService {
             return Collections.emptyList();
         }
     }
+    public Product getProductById(Long id) {
+        try (ProductDao productDao = daoFactory.createProductDao()) {
+            return productDao.findById(id);
+        } catch (Exception e) {
+            log.warn("Cant get product!");
+
+            return null;
+        }
+    }
 
     public boolean createProduct(Product product) {
 
@@ -34,6 +43,16 @@ public class ProductService {
         } catch (Exception e) {
             log.warn(e.getMessage());
             e.getStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateProduct(Product product) {
+        try (ProductDao productDao = daoFactory.createProductDao()) {
+            productDao.update(product);
+            return true;
+        } catch (Exception e) {
+            log.warn("Cant update product!");
             return false;
         }
     }

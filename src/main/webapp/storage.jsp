@@ -44,7 +44,7 @@
                         <td>${product.price}</td>
                         <td>${product.productType.name()}</td>
                         <c:if test="${sessionScope.userRoles.contains('MERCHANDISER')}">
-                            <td><a href="/app/storage/${product.id}"><fmt:message key="users.edit"/></a></td>
+                            <td><a href="/app/productEdit/${product.id}"><fmt:message key="users.edit"/></a></td>
                         </c:if>
                     </tr>
                 </c:forEach>

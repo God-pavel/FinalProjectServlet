@@ -20,6 +20,7 @@ public class CommandManager {
         commandMap.put("/index", new IndexCommand());
         commandMap.put("/storage", new StorageCommand(new ProductService()));
         commandMap.put("/merchandise", new AddProductCommand(new ProductService()));
+        commandMap.put("/productEdit", new ProductEditCommand(new ProductService()));
     }
 
     public static CommandManager getInstance() {

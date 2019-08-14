@@ -105,15 +105,15 @@ public class JDBCProductDao implements ProductDao {
 
     @Override
     public void update(Product entity) {
-//        try (PreparedStatement ps =
-//                     connection.prepareStatement("update user set username=? where id=?")) {
-//            ps.setString(1, entity.getUsername());
-//            ps.setLong(2, entity.getId());
-//            ps.executeUpdate();
-//            updateRoles(entity.getRoles(), entity.getUsername(), entity.getId());
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        try (PreparedStatement ps =
+                     connection.prepareStatement("update product set amount=?, price=? where id=?")) {
+            ps.setLong(1, entity.getAmount());
+            ps.setBigDecimal(2, entity.getPrice());
+            ps.setLong(3, entity.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
