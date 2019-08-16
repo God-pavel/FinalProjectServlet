@@ -26,15 +26,13 @@
 
     <form action="/app/productEdit/${requestScope.product.id}" method="post">
         <p>
-            <fmt:message key="merchandise.price"/> <input type="number" step="any" name="price"
-        >
+            <fmt:message key="merchandise.price"/> <input type="number" step="any" name="price">
         </p>
         <p>
-            <fmt:message key="merchandise.amount"/> <input type="number" name="amount"
-        >
+            <fmt:message key="merchandise.amount"/> <input type="number" name="amount">
         </p>
 
-        <button type="submit"><fmt:message key="merchandise.save"/></button>
+        <button class="btn btn-primary" type="submit"><fmt:message key="merchandise.save"/></button>
     </form>
 
 </div>

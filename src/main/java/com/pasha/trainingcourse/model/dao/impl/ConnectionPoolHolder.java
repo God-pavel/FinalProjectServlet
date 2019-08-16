@@ -14,10 +14,6 @@ public class ConnectionPoolHolder {
                     ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
                     ds.setUsername("cash_user");
                     ds.setPassword("1234");
-
-//                    ds.setMinIdle(5);
-//                    ds.setMaxIdle(10);
-//                    ds.setMaxOpenPreparedStatements(100);
                     dataSource = ds;
                 }
             }

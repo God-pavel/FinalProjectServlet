@@ -20,7 +20,7 @@ public class ProductMapper implements ObjectMapper<Product>{
 
     @Override
     public void makeUnique(Map<Long, Product> cache,
-                           Product product, ResultSet rs) throws SQLException{
+                           Product product, ResultSet rs) {
         cache.putIfAbsent(product.getId(), product);
     }
 }

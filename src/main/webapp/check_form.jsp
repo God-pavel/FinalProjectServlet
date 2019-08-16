@@ -26,19 +26,17 @@
         <div class="alert alert-danger" role="alert">${requestScope.message}</div>
     </c:if>
 
-    <p>Check creator: ${requestScope.check.user.getUsername()}</p>
-    <p>Time: ${requestScope.check.time}</p>
+    <p><fmt:message key= "check.creator"/> ${requestScope.check.user.getUsername()}</p>
+    <p><fmt:message key= "check.time"/> ${requestScope.check.time}</p>
 
     <c:forEach var="key" items="${requestScope.check.productAmount.keySet()}">
-        <p>${key.getName()} Amount: ${requestScope.check.productAmount.get(key)}</p>
+        <p>${key.getName()} <fmt:message key= "check.amount"/> ${requestScope.check.productAmount.get(key)}</p>
 
     </c:forEach>
-    <p>Total: ${requestScope.check.total}</p>
+    <p><fmt:message key= "check.total"/> ${requestScope.check.total}</p>
 
     <form action="/app/closeCheck/${requestScope.check.id}" method="post">
-
-        <input type="hidden" name="checkId" value="${requestScope.check.id}"/>
-        <button class="btn btn-primary m-3" type="submit">Close check</button>
+        <button class="btn btn-primary m-3" type="submit"><fmt:message key= "check.close"/></button>
     </form>
 
 
@@ -47,41 +45,41 @@
             <div class="col-sm">
                 <form action="/app/addByName/${requestScope.check.id}" method="post">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Product name: </label>
+                        <label class="col-sm-3 col-form-label"><fmt:message key= "check.productName"/> </label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" name="name" required/>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Amount</label>
+                        <label class="col-sm-3 col-form-label"><fmt:message key= "check.amount"/></label>
                         <div class="col-sm-5">
                             <input type="number" step="any" class="form-control" name="amount" required/>
                         </div>
                     </div>
 
                     <input type="hidden" name="checkId" value="${requestScope.check.id}"/>
-                    <button class="btn btn-outline-secondary btn-sm" type="submit">Add product by name</button>
+                    <button class="btn btn-outline-secondary btn-sm" type="submit"><fmt:message key= "check.addProductByName"/></button>
                 </form>
             </div>
             <div class="col-sm">
                 <form action="/app/addById/${requestScope.check.id}" method="post">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Product id: </label>
+                        <label class="col-sm-3 col-form-label"><fmt:message key= "check.productId"/> </label>
                         <div class="col-sm-5">
                             <input type="number" class="form-control" name="id" required/>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Amount</label>
+                        <label class="col-sm-3 col-form-label"><fmt:message key= "check.amount"/></label>
                         <div class="col-sm-5">
                             <input type="number" step="any" class="form-control" name="amount" required/>
                         </div>
                     </div>
 
                     <input type="hidden" name="checkId" value="${requestScope.check.id}"/>
-                    <button class="btn btn-outline-secondary btn-sm" type="submit">Add product by id</button>
+                    <button class="btn btn-outline-secondary btn-sm" type="submit"><fmt:message key= "check.addProductById"/></button>
                 </form>
             </div>
 

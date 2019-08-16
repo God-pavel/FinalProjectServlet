@@ -30,6 +30,8 @@
                     <th><fmt:message key="users.username"/></th>
                     <th><fmt:message key="users.password"/></th>
                     <th><fmt:message key="users.role"/></th>
+                    <th><fmt:message key="users.edit"/></th>
+
                 </tr>
                 </thead>
                 <tbody>

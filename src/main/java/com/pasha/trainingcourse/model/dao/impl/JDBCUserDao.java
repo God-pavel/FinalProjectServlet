@@ -12,10 +12,18 @@ import java.util.*;
 
 public class JDBCUserDao implements UserDao {
     private Connection connection;
-    private static final Logger log = LogManager.getLogger();
+
+    private static final String INSERT_INTO_USER = "insert into user(username, password) values (?, ?)";
+    private static final String SELECT_ID_FROM_USER = "select id from user where username=?";
+    private static final String INSERT_INTO_USER_ROLES = "insert into user_roles(user_id, role) values (?, ?)";
+    private static final String SELECT_FROM_USER_WHERE_USERNAME = "select * from user u left join user_roles ur on u.id = ur.user_id where username =?";
+    private static final String SELECT_FROM_USER_WHERE_ID = "select * from user u left join user_roles ur on u.id = ur.user_id where id =?";
+    private static final String SELECT_ALL_FROM_USER = "select * from user u left join user_roles ur on u.id = ur.user_id";
+    private static final String UPDATE_USER = "update user set username=? where id=?";
+    private static final String DELETE_FROM_USER = "delete from user_roles where user_id=?;";
 
 
-    public JDBCUserDao(Connection connection) {
+    JDBCUserDao(Connection connection) {
         this.connection = connection;
         if (findByUsername("admin") == null) {
             create(new User("admin", "1", Set.of(Role.values())));
@@ -25,7 +33,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void create(User entity) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("insert into user(username, password) values (?, ?)")) {
+                     connection.prepareStatement(INSERT_INTO_USER)) {
             ps.setString(1, entity.getUsername());
             ps.setString(2, entity.getPassword());
             ps.executeUpdate();
@@ -38,14 +46,14 @@ public class JDBCUserDao implements UserDao {
 
     private void insertRolesToDb(Set<Role> roles, String username) {
         try {
-            PreparedStatement st = connection.prepareStatement("select id from user where username=?");
+            PreparedStatement st = connection.prepareStatement(SELECT_ID_FROM_USER);
             st.setString(1,username);
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
                 Long id = rs.getLong("id");
                 PreparedStatement ps =
-                        connection.prepareStatement("insert into user_roles(user_id, role) values (?, ?)");
+                        connection.prepareStatement(INSERT_INTO_USER_ROLES);
                 for (Role role : roles) {
                     ps.setLong(1, id);
                     ps.setString(2, role.name());
@@ -62,7 +70,7 @@ public class JDBCUserDao implements UserDao {
     public User findByUsername(String username) {
         UserMapper userMapper = new UserMapper();
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from user u left join user_roles ur on u.id = ur.user_id where username =?")) {
+                     connection.prepareStatement(SELECT_FROM_USER_WHERE_USERNAME)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             return userMapper.extractFromRsWithALLRoles(rs);
@@ -75,7 +83,7 @@ public class JDBCUserDao implements UserDao {
     public User findById(Long id) {
         UserMapper userMapper = new UserMapper();
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from user u left join user_roles ur on u.id = ur.user_id where id =?")) {
+                     connection.prepareStatement(SELECT_FROM_USER_WHERE_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             return userMapper.extractFromRsWithALLRoles(rs);
@@ -90,9 +98,8 @@ public class JDBCUserDao implements UserDao {
 
         Map<Long, User> users = new HashMap<>();
 
-        final String query = "select * from user u left join user_roles ur on u.id = ur.user_id";
         try (Statement st = connection.createStatement()) {
-            ResultSet rs = st.executeQuery(query);
+            ResultSet rs = st.executeQuery(SELECT_ALL_FROM_USER);
 
             UserMapper userMapper = new UserMapper();
 
@@ -111,7 +118,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public void update(User entity) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("update user set username=? where id=?")) {
+                     connection.prepareStatement(UPDATE_USER)) {
             ps.setString(1, entity.getUsername());
             ps.setLong(2, entity.getId());
             ps.executeUpdate();
@@ -123,7 +130,7 @@ public class JDBCUserDao implements UserDao {
 
     private void updateRoles(Set<Role> roles, String username, Long id) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("delete from user_roles where user_id=?;")) {
+                     connection.prepareStatement(DELETE_FROM_USER)) {
             ps.setLong(1, id);
             ps.execute();
             insertRolesToDb(roles, username);

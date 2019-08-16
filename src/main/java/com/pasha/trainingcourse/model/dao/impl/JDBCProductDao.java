@@ -17,7 +17,11 @@ import java.util.Map;
 public class JDBCProductDao implements ProductDao {
     private Connection connection;
     private static final Logger log = LogManager.getLogger();
-
+    private static final String INSERT_INTO_PRODUCT = "insert into product(name, price, amount, type) values (?, ?, ?, ?)";
+    private static final String SELECT_PRODUCT_WHERE_NAME = "select * from product where name =?";
+    private static final String SELECT_PRODUCT_WHERE_ID = "select * from product where id =?";
+    private static final String SELECT_PRODUCT_ALL = "select * from product";
+    private static final String UPDATE_PRODUCT = "update product set amount=?, price=? where id=?";
 
     JDBCProductDao(Connection connection) {
         this.connection = connection;
@@ -26,7 +30,7 @@ public class JDBCProductDao implements ProductDao {
     @Override
     public void create(Product entity) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("insert into product(name, price, amount, type) values (?, ?, ?, ?)")) {
+                     connection.prepareStatement(INSERT_INTO_PRODUCT)) {
             ps.setString(1, entity.getName());
             ps.setBigDecimal(2, entity.getPrice());
             ps.setLong(3, entity.getAmount());
@@ -45,7 +49,7 @@ public class JDBCProductDao implements ProductDao {
     public Product findByName(String name) {
         ProductMapper productMapper = new ProductMapper();
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from product where name =?")) {
+                     connection.prepareStatement(SELECT_PRODUCT_WHERE_NAME)) {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -62,7 +66,7 @@ public class JDBCProductDao implements ProductDao {
         ProductMapper productMapper = new ProductMapper();
 
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from product where id =?")) {
+                     connection.prepareStatement(SELECT_PRODUCT_WHERE_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -82,9 +86,8 @@ public class JDBCProductDao implements ProductDao {
 
         Map<Long, Product> products = new HashMap<>();
 
-        final String query = "select * from product";
         try (Statement st = connection.createStatement()) {
-            ResultSet rs = st.executeQuery(query);
+            ResultSet rs = st.executeQuery(SELECT_PRODUCT_ALL);
             ProductMapper productMapper = new ProductMapper();
             while (rs.next()) {
                 Product product = productMapper
@@ -102,7 +105,7 @@ public class JDBCProductDao implements ProductDao {
     @Override
     public void update(Product entity) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("update product set amount=?, price=? where id=?")) {
+                     connection.prepareStatement(UPDATE_PRODUCT)) {
             ps.setLong(1, entity.getAmount());
             ps.setBigDecimal(2, entity.getPrice());
             ps.setLong(3, entity.getId());

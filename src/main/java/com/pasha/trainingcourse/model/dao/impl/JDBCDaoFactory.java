@@ -11,8 +11,6 @@ import java.sql.SQLException;
 public class JDBCDaoFactory extends DaoFactory {
 
     private DataSource dataSource = ConnectionPoolHolder.getDataSource();
-    private static final Logger log = LogManager.getLogger();
-
 
     @Override
     public UserDao createUserDao() {
@@ -22,19 +20,16 @@ public class JDBCDaoFactory extends DaoFactory {
     @Override
     public ProductDao createProductDao() {
         return new JDBCProductDao(getConnection());
-
     }
 
     @Override
     public ReportDao createReportDao() {
         return new JDBCReportDao(getConnection());
-
     }
 
     @Override
     public CheckDao createCheckDao() {
         return new JDBCCheckDao(getConnection());
-
     }
 
     private Connection getConnection(){
@@ -42,7 +37,6 @@ public class JDBCDaoFactory extends DaoFactory {
             return dataSource.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         }
     }
 }

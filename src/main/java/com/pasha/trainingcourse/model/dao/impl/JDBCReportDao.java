@@ -20,6 +20,12 @@ import java.util.Map;
 public class JDBCReportDao implements ReportDao {
     private Connection connection;
     private static final Logger log = LogManager.getLogger();
+    private static final String INSERT_INTO_CHECK_IN_REPORT = "insert into check_in_report(report_id, check_id) values (?, ?)";
+    private static final String INSERT_INTO_REPORT = "insert into report(date, total, type, user_id) values (?, ?, ?, ?)";
+    private static final String SELECT_LAST_REPORT = "select * from report r left join check_in_report cir on r.id = cir.report_id order by id desc limit 1";
+    private static final String SELECT_REPORT_BY_DATE = "select * from report r left join check_in_report cir on r.id = cir.report_id where date = ?";
+    private static final String SELECT_ALL_REPORT = "select * from report r left join check_in_report cir on r.id = cir.report_id";
+
 
 
     JDBCReportDao(Connection connection) {
@@ -28,7 +34,7 @@ public class JDBCReportDao implements ReportDao {
 
     private void insertChecksToDb(List<Check> checks, Long id) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("insert into check_in_report(report_id, check_id) values (?, ?)")) {
+                     connection.prepareStatement(INSERT_INTO_CHECK_IN_REPORT)) {
             for (Check check : checks) {
                 ps.setLong(1, id);
                 ps.setLong(2, check.getId());
@@ -43,7 +49,7 @@ public class JDBCReportDao implements ReportDao {
     @Override
     public void create(Report entity) {
         try (PreparedStatement ps =
-                     connection.prepareStatement("insert into report(date, total, type, user_id) values (?, ?, ?, ?)")) {
+                     connection.prepareStatement(INSERT_INTO_REPORT)) {
             ps.setDate(1, Date.valueOf(entity.getDate()));
             ps.setBigDecimal(2, entity.getTotal());
             ps.setString(3, entity.getReportType().name());
@@ -60,7 +66,7 @@ public class JDBCReportDao implements ReportDao {
     private Report findLast() {
         ReportMapper reportMapper = new ReportMapper(new UserService(), new CheckService(new ProductService()));
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from report r left join check_in_report cir on r.id = cir.report_id order by id desc limit 1")) {
+                     connection.prepareStatement(SELECT_LAST_REPORT)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return reportMapper.extractFromRsWithALLChecks(rs);
@@ -82,7 +88,7 @@ public class JDBCReportDao implements ReportDao {
         Map<Long, Report> reports = new HashMap<>();
         ReportMapper reportMapper = new ReportMapper(new UserService(), new CheckService(new ProductService()));
         try (PreparedStatement ps =
-                     connection.prepareStatement("select * from report r left join check_in_report cir on r.id = cir.report_id where date = ?")) {
+                     connection.prepareStatement(SELECT_REPORT_BY_DATE)) {
             ps.setDate(1, Date.valueOf(date));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -100,9 +106,8 @@ public class JDBCReportDao implements ReportDao {
     @Override
     public List<Report> findAll() {
         Map<Long, Report> reports = new HashMap<>();
-        final String query = "select * from report r left join check_in_report cir on r.id = cir.report_id";
         try (Statement st = connection.createStatement()) {
-            ResultSet rs = st.executeQuery(query);
+            ResultSet rs = st.executeQuery(SELECT_ALL_REPORT);
             ReportMapper reportMapper = new ReportMapper(new UserService(), new CheckService(new ProductService()));
             while (rs.next()) {
                 Report report = reportMapper

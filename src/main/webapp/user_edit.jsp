@@ -32,8 +32,7 @@
             <label><input type="checkbox" name="roles" value=${role}>${role}</label>
         </div>
         </c:forEach>
-        <%--<input type="hidden" name="userId" value="${requestScope.user.id}">--%>
-    <button type="submit"><fmt:message key= "merchandise.save"/></button>
+        <button class="btn btn-primary" type="submit"><fmt:message key= "merchandise.save"/></button>
     </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

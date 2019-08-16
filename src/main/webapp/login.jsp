@@ -37,9 +37,6 @@
                 <input type="password" class="form-control" name="password" required/>
             </div>
         </div>
-
-
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button class="btn btn-primary" type="submit"><fmt:message key="login.enter"/></button>
     </form>
     <fmt:message key="login.ask"/> <a href="/app/registration"> <fmt:message key="login.link"/> </a>

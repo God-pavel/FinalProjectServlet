@@ -25,33 +25,32 @@
     <div class="alert alert-danger" role="alert">${requestScope.message}</div>
     </c:if>
     <form action="/app/createCheck" method="post">
-        <button class="btn btn-primary" type="submit">Create check</button>
+        <button class="btn btn-primary" type="submit"><fmt:message key="main.createCheck"/></button>
     </form>
 
     <div class="card-columns">
         <c:forEach var="check" items="${requestScope.checks}">
             <div class="card my-3" style="width: 18rem;">
-                <b>Check: ${check.id}</b>
+                <b><fmt:message key="main.check"/> ${check.id}</b>
                 <div class="m-2">
-                    <p>Time: ${check.time}</p>
-                    <p>Check creator: ${check.user.username}</p>
+                    <p><fmt:message key="main.time"/> ${check.time}</p>
+                    <p><fmt:message key="main.checkCreator"/> ${check.user.username}</p>
                     <c:forEach var="key" items="${check.productAmount.keySet()}">
-                        <div style="float: left;">${key.getName()} Amount: ${check.productAmount.get(key)}</div>
+                        <div style="float: left;">${key.getName()} <fmt:message key="main.amount"/> ${check.productAmount.get(key)}</div>
                         <c:if test="${sessionScope.userRoles.contains('SENIOR_CASHIER')}">
                             <form action="/app/deleteProduct/${check.id}/${key.name}" method="post">
-                                <button type="submit" class="btn ml-2 btn-outline-secondary btn-sm">Delete product
-                                </button>
+                                <button type="submit" class="btn ml-2 btn-outline-secondary btn-sm"><fmt:message key="main.deleteProduct"/></button>
                             </form>
                         </c:if>
                     </c:forEach>
                 </div>
                 <div class="card-footer text-muted">
-                    <b style="float: left;">Total: ${check.total}</b>
+                    <b style="float: left;"><fmt:message key="main.total"/> ${check.total}</b>
                     <c:if test="${sessionScope.userRoles.contains('SENIOR_CASHIER')}">
 
                         <form action="/app/deleteCheck/${check.id}" method="post">
 
-                            <button type="submit" class="btn ml-4 btn-secondary">Delete check</button>
+                            <button type="submit" class="btn ml-4 btn-secondary"><fmt:message key="main.deleteCheck"/></button>
                         </form>
                     </c:if>
 

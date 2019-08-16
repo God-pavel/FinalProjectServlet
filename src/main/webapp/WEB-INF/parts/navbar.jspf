@@ -57,7 +57,7 @@
         <div>
             <form action="/app/logout" method="post">
                 <c:if test="${sessionScope.user != null}">
-                    <button class="btn btn-primary" type="submit">Log out</button>
+                    <button class="btn btn-primary" type="submit"><fmt:message key="logout"/></button>
                 </c:if>
             </form>
         </div>

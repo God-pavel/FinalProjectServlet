@@ -29,12 +29,12 @@
         <div class="row">
             <div class="col-sm">
                 <form action="/app/createXReport" method="post">
-                    <button class="btn btn-primary" type="submit">Create X-Report</button>
+                    <button class="btn btn-primary" type="submit"><fmt:message key="report.createX"/></button>
                 </form>
             </div>
             <div class="col-sm">
                 <form action="/app/createZReport" method="post">
-                    <button class="btn btn-primary" type="submit">Create Z-Report</button>
+                    <button class="btn btn-primary" type="submit"><fmt:message key="report.createZ"/></button>
                 </form>
             </div>
         </div>
@@ -43,14 +43,14 @@
     <div class="card-columns">
         <c:forEach var="report" items="${requestScope.reports}">
             <div class="card my-3" style="width: 18rem;">
-                <b>Report: ${report.id}</b>
+                <b><fmt:message key="report.report"/> ${report.id}</b>
                 <div class="m-2">
-                    <p>Type: ${report.reportType}</p>
-                    <p>Date: ${report.date}</p>
-                    <p>Creator: ${report.user.username}</p>
+                    <p><fmt:message key="report.type"/> ${report.reportType}</p>
+                    <p><fmt:message key="report.date"/> ${report.date}</p>
+                    <p><fmt:message key="report.creator"/> ${report.user.username}</p>
                 </div>
                 <div class="card-footer text-muted">
-                    <b>Total: ${report.total}</b>
+                    <b><fmt:message key="report.total"/> ${report.total}</b>
                 </div>
             </div>
         </c:forEach>
