@@ -1,6 +1,8 @@
 package com.pasha.trainingcourse.controller.command;
 
+import com.pasha.trainingcourse.model.service.CheckService;
 import com.pasha.trainingcourse.model.service.ProductService;
+import com.pasha.trainingcourse.model.service.ReportService;
 import com.pasha.trainingcourse.model.service.UserService;
 
 import java.util.HashMap;
@@ -21,6 +23,19 @@ public class CommandManager {
         commandMap.put("/storage", new StorageCommand(new ProductService()));
         commandMap.put("/merchandise", new AddProductCommand(new ProductService()));
         commandMap.put("/productEdit", new ProductEditCommand(new ProductService()));
+        commandMap.put("/main", new MainCommand(new CheckService(new ProductService())));
+        commandMap.put("/createCheck", new CreateCheckCommand(new CheckService(new ProductService()),
+                new ReportService(new CheckService(new ProductService()))));
+        commandMap.put("/addByName", new AddByNameCommand(new CheckService(new ProductService())));
+        commandMap.put("/addById", new AddByIdCommand(new CheckService(new ProductService())));
+        commandMap.put("/closeCheck", new CloseCheckCommand(new CheckService(new ProductService())));
+        commandMap.put("/deleteCheck", new DeleteCheckCommand(new CheckService(new ProductService())));
+        commandMap.put("/deleteProduct", new DeleteProductFromCheckCommand(new CheckService(new ProductService())));
+        commandMap.put("/report", new ReportCommand(new ReportService(new CheckService(new ProductService()))));
+        commandMap.put("/createXReport", new CreateXReportCommand(new ReportService(new CheckService(new ProductService()))));
+        commandMap.put("/createZReport", new CreateZReportCommand(new ReportService(new CheckService(new ProductService()))));
+
+
     }
 
     public static CommandManager getInstance() {

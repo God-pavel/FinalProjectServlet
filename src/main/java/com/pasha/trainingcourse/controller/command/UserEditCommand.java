@@ -1,7 +1,9 @@
 package com.pasha.trainingcourse.controller.command;
 
-import com.pasha.trainingcourse.model.entity.enums.Role;
+import com.pasha.trainingcourse.controller.validator.Result;
+import com.pasha.trainingcourse.controller.validator.UsernameValidator;
 import com.pasha.trainingcourse.model.entity.User;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +22,7 @@ public class UserEditCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         Set<String> allRoles = new HashSet<>();
-        Arrays.stream(Role.values()).forEach(role->allRoles.add(role.name()));
+        Arrays.stream(Role.values()).forEach(role -> allRoles.add(role.name()));
         request.setAttribute("allRoles", allRoles);
 
         String userId = request.getRequestURI().replaceAll(".*/userEdit/", "");
@@ -29,16 +31,26 @@ public class UserEditCommand implements Command {
 
         String username = request.getParameter("username");
         String[] roleNames = request.getParameterValues("roles");
-        if(roleNames == null){
+        if (roleNames == null) {
             return "/user_edit.jsp";
         }
+
+        Result checkUsername = new UsernameValidator().validate(username);
+
+
+        if (!checkUsername.isValid()) {
+            request.setAttribute("message", checkUsername.getMessage());
+            return "/user_edit.jsp";
+        }
+
+
         Set<Role> roles = Arrays.stream(roleNames)
                 .map(Role::valueOf)
                 .collect(Collectors.toSet());
         user.setUsername(username);
         user.setRoles(roles);
-        if(!userService.updateUser(user)){
-            request.setAttribute("error", true);
+        if (!userService.updateUser(user)) {
+            request.setAttribute("message", "User with that username already exist!");
             return "/user_edit.jsp";
         }
 

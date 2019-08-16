@@ -1,8 +1,6 @@
 package com.pasha.trainingcourse.model.dao.impl;
 
-import com.pasha.trainingcourse.model.dao.DaoFactory;
-import com.pasha.trainingcourse.model.dao.ProductDao;
-import com.pasha.trainingcourse.model.dao.UserDao;
+import com.pasha.trainingcourse.model.dao.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +22,18 @@ public class JDBCDaoFactory extends DaoFactory {
     @Override
     public ProductDao createProductDao() {
         return new JDBCProductDao(getConnection());
+
+    }
+
+    @Override
+    public ReportDao createReportDao() {
+        return new JDBCReportDao(getConnection());
+
+    }
+
+    @Override
+    public CheckDao createCheckDao() {
+        return new JDBCCheckDao(getConnection());
 
     }
 

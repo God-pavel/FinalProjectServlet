@@ -21,8 +21,8 @@
 <%@include file="/WEB-INF/parts/navbar.jspf" %>
 <div class="container mt-4">
     <h3><fmt:message key= "page.user"/></h3>
-    <c:if test="${requestScope.error}">
-        <div class="alert alert-danger" role="alert"><fmt:message key="message.exist.user"/></div>
+    <c:if test="${requestScope.message!=null}">
+        <div class="alert alert-danger" role="alert">${requestScope.message}</div>
     </c:if>
 
     <form action="/app/userEdit/${requestScope.user.id}" method="post">

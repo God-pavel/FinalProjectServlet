@@ -20,36 +20,43 @@
 <body>
 <%@include file="/WEB-INF/parts/navbar.jspf" %>
 <div class="container mt-4">
-    <h3><fmt:message key="page.registration"/></h3>
-
+    <h3><fmt:message key="page.report"/></h3>
     <c:if test="${requestScope.message!=null}">
         <div class="alert alert-danger" role="alert">${requestScope.message}</div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/app/registration" method="post">
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="username"> <fmt:message key="registration.username"/></label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="username" name="username" required/>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <form action="/app/createXReport" method="post">
+                    <button class="btn btn-primary" type="submit">Create X-Report</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <form action="/app/createZReport" method="post">
+                    <button class="btn btn-primary" type="submit">Create Z-Report</button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="password"> <fmt:message key="registration.password"/></label>
-            <div class="col-sm-6">
-                <input type="password" class="form-control" id="password" name="password" required/>
+    <div class="card-columns">
+        <c:forEach var="report" items="${requestScope.reports}">
+            <div class="card my-3" style="width: 18rem;">
+                <b>Report: ${report.id}</b>
+                <div class="m-2">
+                    <p>Type: ${report.reportType}</p>
+                    <p>Date: ${report.date}</p>
+                    <p>Creator: ${report.user.username}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <b>Total: ${report.total}</b>
+                </div>
             </div>
-        </div>
-
-        <button class="btn btn-primary" type="submit"><fmt:message key="registration.register"/></button>
-
-
-    </form>
-
-
+        </c:forEach>
+    </div>
 </div>
-
-
+</body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -59,5 +66,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-</body>
+
+
 </html>

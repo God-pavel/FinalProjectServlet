@@ -9,5 +9,5 @@ public interface ObjectMapper<T> {
     T extractFromResultSet(ResultSet rs) throws SQLException;
 
     void makeUnique(Map<Long, T> cache,
-                 T teacher, ResultSet rs) throws  SQLException;
+                 T entity, ResultSet rs) throws  SQLException;
 }

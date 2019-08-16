@@ -20,8 +20,8 @@
 <div class="container mt-4">
     <h3><fmt:message key="page.product"/> ${requestScope.product.name}</h3>
 
-    <c:if test="${requestScope.error}">
-        <div class="alert alert-danger" role="alert">Cant update product!</div>
+    <c:if test="${requestScope.message!=null}">
+        <div class="alert alert-danger" role="alert">${requestScope.message}</div>
     </c:if>
 
     <form action="/app/productEdit/${requestScope.product.id}" method="post">

@@ -61,7 +61,6 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findByUsername(String username) {
         UserMapper userMapper = new UserMapper();
-        Map<Long, User> users = new HashMap<>();
         try (PreparedStatement ps =
                      connection.prepareStatement("select * from user u left join user_roles ur on u.id = ur.user_id where username =?")) {
             ps.setString(1, username);
@@ -75,7 +74,6 @@ public class JDBCUserDao implements UserDao {
     @Override
     public User findById(Long id) {
         UserMapper userMapper = new UserMapper();
-        Map<Long, User> users = new HashMap<>();
         try (PreparedStatement ps =
                      connection.prepareStatement("select * from user u left join user_roles ur on u.id = ur.user_id where id =?")) {
             ps.setLong(1, id);

@@ -25,8 +25,8 @@
     <div class="col-md-12">
         <table class="table table-striped">
 
-            <c:if test="${requestScope.error}">
-                <div class="alert alert-danger" role="alert"><fmt:message key="message.exist.product"/></div>
+            <c:if test="${requestScope.message!=null}">
+                <div class="alert alert-danger" role="alert">${requestScope.message}</div>
             </c:if>
         <form action="/app/merchandise" method="post">
             <div class="form-group row">
@@ -49,7 +49,7 @@
             </div>
             <c:forEach var="role" items="${requestScope.types}">
                 <div>
-                    <label><input type="radio" name="type"  value=${role}>${role}</label>
+                    <label><input type="radio" name="type" required value=${role}>${role}</label>
                 </div>
             </c:forEach>
         <button class="btn btn-primary" type="submit"><fmt:message key= "merchandise.add"/></button>

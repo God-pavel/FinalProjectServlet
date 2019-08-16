@@ -21,10 +21,6 @@ public class JDBCProductDao implements ProductDao {
 
     JDBCProductDao(Connection connection) {
         this.connection = connection;
-        if (findByName("Banana") == null) {
-            create(new Product("banana", new BigDecimal(3.99), 100L, ProductType.QUANTITY));
-        }
-
     }
 
     @Override

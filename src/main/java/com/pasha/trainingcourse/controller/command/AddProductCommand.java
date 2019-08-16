@@ -1,6 +1,7 @@
 package com.pasha.trainingcourse.controller.command;
 
 
+import com.pasha.trainingcourse.controller.validator.*;
 import com.pasha.trainingcourse.model.entity.Product;
 import com.pasha.trainingcourse.model.entity.enums.ProductType;
 import com.pasha.trainingcourse.model.entity.enums.Role;
@@ -42,6 +43,27 @@ public class AddProductCommand implements Command {
         Long amount = Long.parseLong(request.getParameter("amount"));
         ProductType type = ProductType.valueOf(request.getParameter("type"));
 
+        Result checkProductName = new ProductNameValidator().validate(name);
+
+        if (!checkProductName.isValid()) {
+            request.setAttribute("message", checkProductName.getMessage());
+            return "/merchandise.jsp";
+        }
+
+        Result checkAmount = new AmountValidator().validate(amount);
+
+        if (!checkAmount.isValid()) {
+            request.setAttribute("message", checkAmount.getMessage());
+            return "/merchandise.jsp";
+        }
+
+        Result checkPrice = new PriceValidator().validate(price);
+
+        if (!checkPrice.isValid()) {
+            request.setAttribute("message", checkPrice.getMessage());
+            return "/merchandise.jsp";
+        }
+
         Product product = new Product(name,price, amount, type);
 
         if (productService.createProduct(product)) {
@@ -49,7 +71,7 @@ public class AddProductCommand implements Command {
             return "redirect:/storage";
         } else {
             log.info("Product can not be created");
-            request.setAttribute("error", true);
+            request.setAttribute("message", "Product exist!");
             return "/merchandise.jsp";
         }
     }
