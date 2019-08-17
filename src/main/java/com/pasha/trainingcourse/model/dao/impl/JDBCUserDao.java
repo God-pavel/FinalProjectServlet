@@ -12,7 +12,7 @@ import java.util.*;
 
 public class JDBCUserDao implements UserDao {
     private Connection connection;
-
+    private static final Logger log = LogManager.getLogger();
     private static final String INSERT_INTO_USER = "insert into user(username, password) values (?, ?)";
     private static final String SELECT_ID_FROM_USER = "select id from user where username=?";
     private static final String INSERT_INTO_USER_ROLES = "insert into user_roles(user_id, role) values (?, ?)";
@@ -32,16 +32,19 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public void create(User entity) {
+
         try (PreparedStatement ps =
                      connection.prepareStatement(INSERT_INTO_USER)) {
+            connection.setAutoCommit(false);
             ps.setString(1, entity.getUsername());
             ps.setString(2, entity.getPassword());
             ps.executeUpdate();
             insertRolesToDb(entity.getRoles(), entity.getUsername());
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            rollBack(e,log,connection);
         }
-
     }
 
     private void insertRolesToDb(Set<Role> roles, String username) {
@@ -51,7 +54,7 @@ public class JDBCUserDao implements UserDao {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                Long id = rs.getLong("id");
+                long id = rs.getLong("id");
                 PreparedStatement ps =
                         connection.prepareStatement(INSERT_INTO_USER_ROLES);
                 for (Role role : roles) {
@@ -119,12 +122,15 @@ public class JDBCUserDao implements UserDao {
     public void update(User entity) {
         try (PreparedStatement ps =
                      connection.prepareStatement(UPDATE_USER)) {
+            connection.setAutoCommit(false);
             ps.setString(1, entity.getUsername());
             ps.setLong(2, entity.getId());
             ps.executeUpdate();
             updateRoles(entity.getRoles(), entity.getUsername(), entity.getId());
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            rollBack(e,log,connection);
         }
     }
 

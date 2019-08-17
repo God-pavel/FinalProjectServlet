@@ -32,7 +32,9 @@
                     <th><fmt:message key="storage.amount"/></th>
                     <th><fmt:message key="storage.price"/></th>
                     <th><fmt:message key="storage.type"/></th>
-                    <th><fmt:message key="users.edit"/></th>
+                    <c:if test="${sessionScope.userRoles.contains('MERCHANDISER')}">
+                        <th><fmt:message key="users.edit"/></th>
+                    </c:if>
                 </tr>
                 </thead>
                 <tbody>

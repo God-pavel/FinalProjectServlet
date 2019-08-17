@@ -28,6 +28,9 @@
         <button class="btn btn-primary" type="submit"><fmt:message key="main.createCheck"/></button>
     </form>
 
+    <%@include file="/WEB-INF/parts/paginator.jspf" %>
+
+
     <div class="card-columns">
         <c:forEach var="check" items="${requestScope.checks}">
             <div class="card my-3" style="width: 18rem;">
@@ -36,12 +39,13 @@
                     <p><fmt:message key="main.time"/> ${check.time}</p>
                     <p><fmt:message key="main.checkCreator"/> ${check.user.username}</p>
                     <c:forEach var="key" items="${check.productAmount.keySet()}">
-                        <div style="float: left;">${key.getName()} <fmt:message key="main.amount"/> ${check.productAmount.get(key)}</div>
+                        <label>${key.getName()} <fmt:message key="main.amount"/> ${check.productAmount.get(key)}
                         <c:if test="${sessionScope.userRoles.contains('SENIOR_CASHIER')}">
                             <form action="/app/deleteProduct/${check.id}/${key.name}" method="post">
                                 <button type="submit" class="btn ml-2 btn-outline-secondary btn-sm"><fmt:message key="main.deleteProduct"/></button>
                             </form>
                         </c:if>
+                        </label>
                     </c:forEach>
                 </div>
                 <div class="card-footer text-muted">

@@ -70,6 +70,7 @@ public class JDBCCheckDao implements CheckDao {
     public void create(Check entity) {
         try (PreparedStatement ps =
                      connection.prepareStatement(INSERT_INTO_CHECKS)) {
+            connection.setAutoCommit(false);
             Timestamp ts = Timestamp.valueOf(entity.getTime());
             ps.setTimestamp(1, ts);
             ps.setBigDecimal(2, entity.getTotal());
@@ -77,9 +78,10 @@ public class JDBCCheckDao implements CheckDao {
             ps.setBoolean(4, entity.isToDelete());
             ps.executeUpdate();
             insertProductsToDb(entity.getProductAmount(), findLast().getId());
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(e);
+            rollBack(e, log, connection);
         }
     }
 
@@ -179,6 +181,7 @@ public class JDBCCheckDao implements CheckDao {
     public void update(Check entity) {
         try (PreparedStatement ps =
                      connection.prepareStatement(DELETE_FROM_PRODUCT_IN_CHECK_BY_ID)) {
+            connection.setAutoCommit(false);
             ps.setLong(1, entity.getId());
             ps.execute();
             insertProductsToDb(entity.getProductAmount(), entity.getId());
@@ -192,9 +195,10 @@ public class JDBCCheckDao implements CheckDao {
             ps.setBoolean(2, entity.isToDelete());
             ps.setLong(3, entity.getId());
             ps.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(e);
+            rollBack(e, log, connection);
         }
     }
 
@@ -202,6 +206,7 @@ public class JDBCCheckDao implements CheckDao {
     public void updateTemp(Check entity) {
         try (PreparedStatement ps =
                      connection.prepareStatement(DELETE_FROM_PRODUCT_IN_TEMP_CHECK_BY_ID)) {
+            connection.setAutoCommit(false);
             ps.setLong(1, entity.getId());
             ps.execute();
             insertProductsToTempDb(entity.getProductAmount(), entity.getId());
@@ -214,9 +219,10 @@ public class JDBCCheckDao implements CheckDao {
             ps.setBigDecimal(1, entity.getTotal());
             ps.setLong(2, entity.getId());
             ps.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(e);
+            rollBack(e, log, connection);
         }
     }
 
@@ -231,8 +237,15 @@ public class JDBCCheckDao implements CheckDao {
     }
 
     private void deleteCheck(Long id, String firstQuery, String secondQuery) {
-        deleteHelper(id, firstQuery);
-        deleteHelper(id, secondQuery);
+        try {
+            connection.setAutoCommit(false);
+            deleteHelper(id, firstQuery);
+            deleteHelper(id, secondQuery);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            rollBack(e, log, connection);
+        }
     }
 
     private void deleteHelper(Long id, String query) {

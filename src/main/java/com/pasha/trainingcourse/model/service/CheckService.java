@@ -39,6 +39,19 @@ public class CheckService {
         }
     }
 
+//    public List<Check> getAllPageChecks(long page) {
+//        try (CheckDao dao = daoFactory.createCheckDao()) {
+//            return dao.findAllPage(page);
+//        } catch (Exception e) {
+//            log.warn("Cant get checks!");
+//            return Collections.emptyList();
+//        }
+//    }
+
+    public long getNumberOfChecks(){
+        return getAllChecks().size();
+    }
+
     public Check getTemporaryCheckById(Long id) {
         try (CheckDao checkDao = daoFactory.createCheckDao()) {
             return checkDao.findTempById(id);

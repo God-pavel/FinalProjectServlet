@@ -94,7 +94,7 @@ public class ReportService {
         log.info("total:  " + totalSum);
 
         Report report = new Report(LocalDate.now(),totalSum, user, new ArrayList<>(), ReportType.XReport);
-        log.info("new report:  " + report);
+        log.info("date:  " + LocalDate.now());
         finishReport(report, todayChecks);
         log.info("X-report was saved. Report id: " + report.getId());
 

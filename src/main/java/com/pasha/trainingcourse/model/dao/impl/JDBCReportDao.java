@@ -50,15 +50,17 @@ public class JDBCReportDao implements ReportDao {
     public void create(Report entity) {
         try (PreparedStatement ps =
                      connection.prepareStatement(INSERT_INTO_REPORT)) {
+            connection.setAutoCommit(false);
             ps.setDate(1, Date.valueOf(entity.getDate()));
             ps.setBigDecimal(2, entity.getTotal());
             ps.setString(3, entity.getReportType().name());
             ps.setLong(4, entity.getUser().getId());
             ps.executeUpdate();
             insertChecksToDb(entity.getChecks(), findLast().getId());
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(e);
+            rollBack(e,log,connection);
         }
 
     }
@@ -131,6 +133,7 @@ public class JDBCReportDao implements ReportDao {
     public void delete(Long id) {
 
     }
+
 
     @Override
     public void close() {

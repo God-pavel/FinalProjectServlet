@@ -1,0 +1,41 @@
+<nav>
+    <ul class="pagination">
+        <li class="page-item ${requestScope.currentPage == 0 ? 'disabled' : ''}">
+            <a class="page-link"
+               href="${pageContext.request.contextPath}/app/main?page=${requestScope.currentPage < 1 ? 0 : requestScope.currentPage - 1}&size=${requestScope.pageSize}">
+                <fmt:message key="paginator.previous"/>
+            </a>
+        </li>
+        <c:forEach begin="${requestScope.currentPage}"
+                   end="${requestScope.totalPages - 1 > 5 + requestScope.currentPage - 1 ? 5 + requestScope.numcurrentPageber - 1 : requestScope.totalPages - 1}"
+                   step="1"
+                   var="i">
+            <li class="page-item ${i == requestScope.currentPage ? 'active' : ''}">
+                <c:if test="${i == requestScope.currentPage}">
+                    <a class="page-link" href="#">
+                            ${i + 1}
+                    </a>
+                </c:if>
+                <c:if test="${i != requestScope.currentPage}">
+                    <a class="page-link"
+                       href="${pageContext.request.contextPath}/app/main?page=${i}&size=${requestScope.pageSize}">
+                            ${i + 1}
+                    </a>
+                </c:if>
+            </li>
+        </c:forEach>
+        <c:if test="${requestScope.currentPage + 5 < requestScope.totalPages}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">
+                    ...
+                </a>
+            </li>
+        </c:if>
+        <li class="page-item ${requestScope.currentPage == requestScope.totalPages - 1 ? 'disabled' : ''}">
+            <a class="page-link"
+               href="${pageContext.request.contextPath}/app/main?page=${requestScope.currentPage + 1}&size=${requestScope.pageSize}">
+                <fmt:message key="paginator.next"/>
+            </a>
+        </li>
+    </ul>
+</nav>
