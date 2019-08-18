@@ -39,14 +39,16 @@
                     <p><fmt:message key="main.time"/> ${check.time}</p>
                     <p><fmt:message key="main.checkCreator"/> ${check.user.username}</p>
                     <c:forEach var="key" items="${check.productAmount.keySet()}">
-                        <label>${key.getName()} <fmt:message key="main.amount"/> ${check.productAmount.get(key)}
-                            <c:if test="${sessionScope.userRoles.contains('SENIOR_CASHIER')}">
-                                <form action="/app/deleteProduct/${check.id}/${key.name}" method="post">
-                                    <button type="submit" class="btn ml-2 btn-outline-secondary btn-sm"><fmt:message
-                                            key="main.deleteProduct"/></button>
-                                </form>
-                            </c:if>
-                        </label>
+                        <p>
+                            <label>${key.getName()} <fmt:message key="main.amount"/> ${check.productAmount.get(key)}
+                                <c:if test="${sessionScope.userRoles.contains('SENIOR_CASHIER')}">
+                                    <form action="/app/deleteProduct/${check.id}/${key.name}" method="post">
+                                        <button type="submit" class="btn ml-2 btn-outline-secondary btn-sm"><fmt:message
+                                                key="main.deleteProduct"/></button>
+                                    </form>
+                                </c:if>
+                            </label>
+                        </p>
                     </c:forEach>
                 </div>
                 <div class="card-footer text-muted">

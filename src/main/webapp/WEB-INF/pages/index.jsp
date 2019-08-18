@@ -20,8 +20,8 @@
 <body>
 <%@include file="/WEB-INF/parts/navbar.jspf"%>
 <div class="container mt-4">
-    <h3><fmt:message key="page.face"/></h3>
-    <img src="/public/img/logo.jpg">
+    <h3 align="center"><fmt:message key="page.face"/></h3>
+    <%--<img src="<c:url value='/public/img/index1.png'/>" alt="Cash register image">--%>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -8,6 +8,7 @@ import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class RegistrationCommand implements Command {
             return "/WEB-INF/pages/registration.jsp";
         }
 
-        User user = new User(username, password, Collections.singleton(Role.USER));
+        User user = new User(username, DigestUtils.md5Hex(password), Collections.singleton(Role.USER));
 
         if (userService.registerUser(user)) {
             log.info("User successfully registered");

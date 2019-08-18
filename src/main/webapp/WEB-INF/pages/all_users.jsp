@@ -28,7 +28,6 @@
                 <tr>
                     <th><fmt:message key="users.id"/></th>
                     <th><fmt:message key="users.username"/></th>
-                    <th><fmt:message key="users.password"/></th>
                     <th><fmt:message key="users.role"/></th>
                     <th><fmt:message key="users.edit"/></th>
 
@@ -39,7 +38,6 @@
                     <tr>
                         <td>${user.id}</td>
                         <td>${user.username}</td>
-                        <td>${user.password}</td>
                         <td>${user.roles}</td>
                         <td><a href="/app/userEdit/${user.id}"><fmt:message key="users.edit"/></a></td>
                     </tr>

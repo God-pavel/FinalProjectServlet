@@ -17,7 +17,7 @@ public class AuthFilter implements Filter {
     private final List<String> userPaths = Arrays.asList("/index", "/main", "/createCheck", "/addByName", "/addById", "/closeCheck", "/storage", "/logout");
     private final List<String> merchPaths = Arrays.asList("/index", "/merchandise", "/storage", "/logout", "/productEdit");
     private final List<String> seniorPaths = Arrays.asList("/index", "/main", "/createCheck", "/addByName", "/addById", "/closeCheck", "/deleteCheck", "/deleteProduct", "/createXReport", "/createZReport", "/report", "/storage", "/logout");
-    private final List<String> defaultPaths = Arrays.asList("/index", "/login", "/registration", "/back.jpg");
+    private final List<String> defaultPaths = Arrays.asList("/index", "/login", "/registration", "/public");
     private Map<Role, List<String>> allowedPathPatterns = new HashMap<>();
 
     @Override

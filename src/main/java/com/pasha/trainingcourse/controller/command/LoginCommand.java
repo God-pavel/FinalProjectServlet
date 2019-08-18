@@ -2,6 +2,7 @@ package com.pasha.trainingcourse.controller.command;
 
 import com.pasha.trainingcourse.model.entity.User;
 import com.pasha.trainingcourse.model.service.UserService;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,7 +32,7 @@ public class LoginCommand implements Command {
         }
 
 
-        if (user.getPassword().equals(password)) {
+        if (user.getPassword().equals(DigestUtils.md5Hex(password))) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("username", user.getUsername());

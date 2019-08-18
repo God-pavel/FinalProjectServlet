@@ -4,6 +4,7 @@ import com.pasha.trainingcourse.model.dao.UserDao;
 import com.pasha.trainingcourse.model.dao.mapper.UserMapper;
 import com.pasha.trainingcourse.model.entity.User;
 import com.pasha.trainingcourse.model.entity.enums.Role;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +27,7 @@ public class JDBCUserDao implements UserDao {
     JDBCUserDao(Connection connection) {
         this.connection = connection;
         if (findByUsername("admin") == null) {
-            create(new User("admin", "1", Set.of(Role.values())));
+            create(new User("admin", DigestUtils.md5Hex("1"), Set.of(Role.values())));
         }
     }
 

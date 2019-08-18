@@ -36,8 +36,7 @@ public class MainCommand implements Command {
         long numberOfChecks = checkService.getNumberOfChecks();
         long totalPages = (long) Math.ceil((double) numberOfChecks / 6);
         List <Check> allChecks= checkService.getAllChecks();
-        Collections.reverse(allChecks);
-
+        allChecks.sort((check1, check2) -> (int) (check2.getId() - check1.getId()));
         List<Check> pageChecks = new ArrayList<>();
 
         try {

@@ -19,16 +19,43 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service class realizing reports logic
+ *
+ * @version 1.0
+ * @autor Pavlo Pankratov
+ */
+
 public class ReportService {
 
+    /**
+     * Logger field
+     */
     private static final Logger log = LogManager.getLogger();
+    /**
+     * Dao factory instance field
+     */
     private DaoFactory daoFactory = DaoFactory.getInstance();
+    /**
+     * Check service field
+     */
     private final CheckService checkService;
 
+    /**
+     * Constructor - creating new object
+     *
+     * @param checkService - производитель
+     */
     public ReportService(CheckService checkService) {
         this.checkService = checkService;
     }
 
+
+    /**
+     * Method to get all reports
+     *
+     * @return returns list of reports
+     */
     public List<Report> getAllReports() {
         try (ReportDao dao = daoFactory.createReportDao()) {
             return dao.findAll();
@@ -38,6 +65,12 @@ public class ReportService {
         }
     }
 
+    /**
+     * Method to get reports certain date
+     *
+     * @param date found date
+     * @return returns list of reports
+     */
     private List<Report> getReportsByDate(LocalDate date) {
         try (ReportDao dao = daoFactory.createReportDao()) {
             return dao.findByDate(date);
@@ -47,6 +80,9 @@ public class ReportService {
         }
     }
 
+    /**
+     * Method to call dao creating report method
+     */
     private void createReport(Report report) {
         try (ReportDao dao = daoFactory.createReportDao()) {
             dao.create(report);
@@ -58,10 +94,22 @@ public class ReportService {
         }
     }
 
+    /**
+     * Method to get check total value
+     *
+     * @param check certain date
+     * @return returns double total
+     */
     private Double getCheckTotal(Check check) {
         return check.getTotal().doubleValue();
     }
 
+
+    /**
+     * Method to get all today checks
+     *
+     * @return returns set od checks
+     */
     private Set<Check> getTodayChecks() {
         return checkService.getAllChecks().stream()
                 .filter(check -> check.getTime().
@@ -69,6 +117,12 @@ public class ReportService {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Method to calculate report total value
+     *
+     * @param checks set of report checks
+     * @return returns BigDecimal total
+     */
     private BigDecimal calcTotalSum(Set<Check> checks) {
         List<Double> totals = checks.stream()
                 .map(this::getCheckTotal)
@@ -78,6 +132,11 @@ public class ReportService {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Method to check if today was already created z-report
+     *
+     * @return returns boolean value
+     */
     public boolean getTodayZReport() {
         List<Report> todayReports = getReportsByDate(LocalDate.now());
 //        if(todayReports.isEmpty()){return false;}
@@ -87,6 +146,11 @@ public class ReportService {
         return !todayZReports.isEmpty();
     }
 
+    /**
+     * Method to create x-report
+     *
+     * @param user user that create report
+     */
     public void createXReport(User user) {
         log.info("start create method");
         Set<Check> todayChecks = getTodayChecks();
@@ -101,6 +165,11 @@ public class ReportService {
 
     }
 
+    /**
+     * Method to create z-report
+     *
+     * @param user user that create report
+     */
     public void createZReport(User user) {
         if (getTodayZReport()) {
             throw new ZReportAlreadyCreatedException("ZReport was already created today!");
@@ -116,6 +185,12 @@ public class ReportService {
         log.info("Z-report was saved. Report id: " + report.getId());
     }
 
+    /**
+     * Method to calculate report total value
+     *
+     * @param report report needs to be finished
+     * @param checks report checks
+     */
     private void finishReport(Report report, Set<Check> checks) {
         log.info("in finish method");
         checks.forEach(check -> {
