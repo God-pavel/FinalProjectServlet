@@ -81,7 +81,7 @@ public class JDBCCheckDao implements CheckDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e, log, connection);
+            rollBackTransaction(e, log, connection);
         }
     }
 
@@ -198,7 +198,7 @@ public class JDBCCheckDao implements CheckDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e, log, connection);
+            rollBackTransaction(e, log, connection);
         }
     }
 
@@ -222,7 +222,7 @@ public class JDBCCheckDao implements CheckDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e, log, connection);
+            rollBackTransaction(e, log, connection);
         }
     }
 
@@ -244,7 +244,7 @@ public class JDBCCheckDao implements CheckDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e, log, connection);
+            rollBackTransaction(e, log, connection);
         }
     }
 

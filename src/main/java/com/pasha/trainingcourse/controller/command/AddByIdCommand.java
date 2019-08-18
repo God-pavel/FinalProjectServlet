@@ -30,14 +30,14 @@ public class AddByIdCommand implements Command {
 
         if (!checkAmount.isValid()) {
             request.setAttribute("message", checkAmount.getMessage());
-            return "redirect:/createCheck/" + checkID + "?message="+checkAmount.getMessage();
+            return "redirect:/createCheck/" + checkID + "?message=" + checkAmount.getMessage();
         }
 
         try {
             checkService.addProductToCheckById(check.getId(), Long.parseLong(id), amount);
             return "redirect:/createCheck/" + checkID;
         } catch (NotEnoughProductsException | IllegalArgumentException e) {
-            return "redirect:/createCheck/" + checkID + "?message="+e.getMessage();
+            return "redirect:/createCheck/" + checkID + "?message=" + e.getMessage();
         }
 
     }

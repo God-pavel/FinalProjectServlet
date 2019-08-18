@@ -27,7 +27,6 @@ public class JDBCReportDao implements ReportDao {
     private static final String SELECT_ALL_REPORT = "select * from report r left join check_in_report cir on r.id = cir.report_id";
 
 
-
     JDBCReportDao(Connection connection) {
         this.connection = connection;
     }
@@ -60,7 +59,7 @@ public class JDBCReportDao implements ReportDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e,log,connection);
+            rollBackTransaction(e, log, connection);
         }
 
     }

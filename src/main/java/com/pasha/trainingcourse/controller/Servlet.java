@@ -15,21 +15,18 @@ public class Servlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("doPost");
         process(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("doGet");
         process(request, response);
     }
 
     private void process(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException  {
+            throws ServletException, IOException {
         String path = request.getRequestURI().replaceAll(".*/app", "");
         Command command = commandManager.getCommand(path);
-        System.out.println("path: " + path +", command: "+command);
 
         String page = command.execute(request);
 

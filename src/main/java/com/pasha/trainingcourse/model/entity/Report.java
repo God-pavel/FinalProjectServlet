@@ -5,7 +5,6 @@ import com.pasha.trainingcourse.model.entity.enums.ReportType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 public class Report {
 

@@ -42,7 +42,7 @@ public class User {
         return roles;
     }
 
-    public void setRoles(Set <Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -56,7 +56,7 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, Set <Role> roles) {
+    public User(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;

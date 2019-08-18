@@ -29,8 +29,8 @@ public abstract class AbstractCheckMapper implements ObjectMapper<Check> {
         Long id = rs.getLong("id");
         LocalDateTime time = rs.getTimestamp("time").toLocalDateTime();
         BigDecimal total = rs.getBigDecimal("total");
-        Long productId = rs.getLong("product_id");
-        Long amount = rs.getLong("amount");
+        long productId = rs.getLong("product_id");
+        long amount = rs.getLong("amount");
         if (productId != 0 && amount != 0) {
             products.put(productService.getProductById(productId), amount);
         }

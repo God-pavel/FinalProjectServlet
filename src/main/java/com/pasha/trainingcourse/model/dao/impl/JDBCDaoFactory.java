@@ -1,8 +1,6 @@
 package com.pasha.trainingcourse.model.dao.impl;
 
 import com.pasha.trainingcourse.model.dao.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -32,7 +30,7 @@ public class JDBCDaoFactory extends DaoFactory {
         return new JDBCCheckDao(getConnection());
     }
 
-    private Connection getConnection(){
+    private Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {

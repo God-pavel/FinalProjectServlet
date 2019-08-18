@@ -4,7 +4,6 @@ import com.pasha.trainingcourse.model.exception.CheckCantBeDeleted;
 import com.pasha.trainingcourse.model.service.CheckService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 public class DeleteProductFromCheckCommand implements Command {
     private CheckService checkService;
@@ -17,15 +16,14 @@ public class DeleteProductFromCheckCommand implements Command {
     public String execute(HttpServletRequest request) {
 
         String toParse = request.getRequestURI().replaceAll(".*/deleteProduct/", "");
-        String [] params = toParse.split("/");
+        String[] params = toParse.split("/");
         try {
-            checkService.deleteProductFromCheck(Long.parseLong(params[0]),params[1]);
+            checkService.deleteProductFromCheck(Long.parseLong(params[0]), params[1]);
             return "redirect:/main";
 
         } catch (CheckCantBeDeleted e) {
-            return "redirect:/main?message="+e.getMessage();
+            return "redirect:/main?message=" + e.getMessage();
         }
-
 
 
     }

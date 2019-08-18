@@ -19,7 +19,7 @@ public interface GenericDao<T> extends AutoCloseable {
 
     void close();
 
-    default void rollBack(Exception e, Logger log, Connection c) {
+    default void rollBackTransaction(Exception e, Logger log, Connection c) {
         log.error(e.getMessage());
         try {
             c.rollback();
@@ -29,4 +29,6 @@ public interface GenericDao<T> extends AutoCloseable {
         }
         throw new RuntimeException(e);
     }
+
+
 }

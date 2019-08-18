@@ -3,11 +3,9 @@ package com.pasha.trainingcourse.model.dao.impl;
 import com.pasha.trainingcourse.model.dao.ProductDao;
 import com.pasha.trainingcourse.model.dao.mapper.ProductMapper;
 import com.pasha.trainingcourse.model.entity.Product;
-import com.pasha.trainingcourse.model.entity.enums.ProductType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,8 +52,7 @@ public class JDBCProductDao implements ProductDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return productMapper.extractFromResultSet(rs);
-            }
-            else return null;
+            } else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -72,8 +69,7 @@ public class JDBCProductDao implements ProductDao {
 
             if (rs.next()) {
                 return productMapper.extractFromResultSet(rs);
-            }
-            else return null;
+            } else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

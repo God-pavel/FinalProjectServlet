@@ -37,6 +37,7 @@ public class ReportService {
             return Collections.emptyList();
         }
     }
+
     private List<Report> getReportsByDate(LocalDate date) {
         try (ReportDao dao = daoFactory.createReportDao()) {
             return dao.findByDate(date);
@@ -46,7 +47,7 @@ public class ReportService {
         }
     }
 
-    private void createReport(Report report){
+    private void createReport(Report report) {
         try (ReportDao dao = daoFactory.createReportDao()) {
             dao.create(report);
 
@@ -93,7 +94,7 @@ public class ReportService {
         BigDecimal totalSum = calcTotalSum(todayChecks);
         log.info("total:  " + totalSum);
 
-        Report report = new Report(LocalDate.now(),totalSum, user, new ArrayList<>(), ReportType.XReport);
+        Report report = new Report(LocalDate.now(), totalSum, user, new ArrayList<>(), ReportType.XReport);
         log.info("date:  " + LocalDate.now());
         finishReport(report, todayChecks);
         log.info("X-report was saved. Report id: " + report.getId());
@@ -108,7 +109,7 @@ public class ReportService {
         Set<Check> todayChecks = getTodayChecks();
         BigDecimal totalSum = calcTotalSum(todayChecks);
 
-        Report report = new Report(LocalDate.now(),totalSum, user, new ArrayList<>(), ReportType.ZReport);
+        Report report = new Report(LocalDate.now(), totalSum, user, new ArrayList<>(), ReportType.ZReport);
 
         finishReport(report, todayChecks);
 

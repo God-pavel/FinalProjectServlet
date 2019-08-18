@@ -1,10 +1,12 @@
 package com.pasha.trainingcourse.controller.command;
 
 
-import com.pasha.trainingcourse.controller.validator.*;
+import com.pasha.trainingcourse.controller.validator.AmountValidator;
+import com.pasha.trainingcourse.controller.validator.PriceValidator;
+import com.pasha.trainingcourse.controller.validator.ProductNameValidator;
+import com.pasha.trainingcourse.controller.validator.Result;
 import com.pasha.trainingcourse.model.entity.Product;
 import com.pasha.trainingcourse.model.entity.enums.ProductType;
-import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.service.ProductService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,14 +30,14 @@ public class AddProductCommand implements Command {
     public String execute(HttpServletRequest request) {
 
         Set<String> types = new HashSet<>();
-        Arrays.stream(ProductType.values()).forEach(type->types.add(type.name()));
+        Arrays.stream(ProductType.values()).forEach(type -> types.add(type.name()));
         request.setAttribute("types", types);
 
         if (!(Objects.nonNull(request.getParameter("name")) &&
                 Objects.nonNull(request.getParameter("price")) &&
                 Objects.nonNull(request.getParameter("amount")) &&
                 Objects.nonNull(request.getParameter("type")))) {
-            return "/merchandise.jsp";
+            return "/WEB-INF/pages/merchandise.jsp";
         }
 
         String name = request.getParameter("name");
@@ -47,24 +49,24 @@ public class AddProductCommand implements Command {
 
         if (!checkProductName.isValid()) {
             request.setAttribute("message", checkProductName.getMessage());
-            return "/merchandise.jsp";
+            return "/WEB-INF/pages/merchandise.jsp";
         }
 
         Result checkAmount = new AmountValidator().validate(amount);
 
         if (!checkAmount.isValid()) {
             request.setAttribute("message", checkAmount.getMessage());
-            return "/merchandise.jsp";
+            return "/WEB-INF/pages/merchandise.jsp";
         }
 
         Result checkPrice = new PriceValidator().validate(price);
 
         if (!checkPrice.isValid()) {
             request.setAttribute("message", checkPrice.getMessage());
-            return "/merchandise.jsp";
+            return "/WEB-INF/pages/merchandise.jsp";
         }
 
-        Product product = new Product(name,price, amount, type);
+        Product product = new Product(name, price, amount, type);
 
         if (productService.createProduct(product)) {
             log.info("Product successfully created");
@@ -72,7 +74,7 @@ public class AddProductCommand implements Command {
         } else {
             log.info("Product can not be created");
             request.setAttribute("message", "Product exist!");
-            return "/merchandise.jsp";
+            return "/WEB-INF/pages/merchandise.jsp";
         }
     }
 }

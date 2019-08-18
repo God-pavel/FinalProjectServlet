@@ -14,6 +14,6 @@ public class StorageCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         request.setAttribute("products", productService.getAllProducts());
-        return "/storage.jsp";
+        return "/WEB-INF/pages/storage.jsp";
     }
 }

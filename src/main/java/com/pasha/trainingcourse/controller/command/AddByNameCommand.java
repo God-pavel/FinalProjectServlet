@@ -1,7 +1,6 @@
 package com.pasha.trainingcourse.controller.command;
 
 import com.pasha.trainingcourse.controller.validator.AmountValidator;
-import com.pasha.trainingcourse.controller.validator.ProductNameValidator;
 import com.pasha.trainingcourse.controller.validator.Result;
 import com.pasha.trainingcourse.model.entity.Check;
 import com.pasha.trainingcourse.model.exception.NotEnoughProductsException;
@@ -29,14 +28,14 @@ public class AddByNameCommand implements Command {
         Result checkAmount = new AmountValidator().validate(amount);
 
         if (!checkAmount.isValid()) {
-            return "redirect:/createCheck/" + checkID + "?message="+checkAmount.getMessage();
+            return "redirect:/createCheck/" + checkID + "?message=" + checkAmount.getMessage();
         }
 
         try {
             checkService.addProductToCheckByName(check.getId(), name, amount);
             return "redirect:/createCheck/" + checkID;
         } catch (NotEnoughProductsException | IllegalArgumentException e) {
-            return "redirect:/createCheck/" + checkID + "?message="+e.getMessage();
+            return "redirect:/createCheck/" + checkID + "?message=" + e.getMessage();
         }
 
     }

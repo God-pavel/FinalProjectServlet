@@ -51,8 +51,8 @@ public class CommandManager {
 
 
     public Command getCommand(String commandName) {
-        for(String key : commandMap.keySet()){
-            if(commandName.contains(key)) return commandMap.get(key);
+        for (String key : commandMap.keySet()) {
+            if (commandName.contains(key)) return commandMap.get(key);
         }
 
         return commandMap.get("/index");

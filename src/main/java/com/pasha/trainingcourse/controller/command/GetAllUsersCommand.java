@@ -14,6 +14,6 @@ public class GetAllUsersCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         request.setAttribute("users", userService.getAllUsers());
-        return "/all_users.jsp";
+        return "/WEB-INF/pages/all_users.jsp";
     }
 }

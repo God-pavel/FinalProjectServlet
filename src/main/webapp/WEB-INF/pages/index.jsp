@@ -11,17 +11,17 @@
     <meta charset="UTF-8"/>
     <title>Cash register</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
+        <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
+    <%--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/css/style.css" >--%>
 </head>
 <body>
 <%@include file="/WEB-INF/parts/navbar.jspf"%>
 <div class="container mt-4">
     <h3><fmt:message key="page.face"/></h3>
-
+    <img src="/public/img/logo.jpg">
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

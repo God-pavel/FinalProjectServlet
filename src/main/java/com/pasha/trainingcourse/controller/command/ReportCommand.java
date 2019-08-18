@@ -14,10 +14,10 @@ public class ReportCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String mes = request.getParameter("message");
-        if(mes!=null){
-            request.setAttribute("message",mes);
+        if (mes != null) {
+            request.setAttribute("message", mes);
         }
         request.setAttribute("reports", reportService.getAllReports());
-        return "/report.jsp";
+        return "/WEB-INF/pages/report.jsp";
     }
 }

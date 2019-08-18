@@ -5,12 +5,13 @@ import com.pasha.trainingcourse.model.service.CheckService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainCommand implements Command {
     private CheckService checkService;
 
-    MainCommand(CheckService checkService) {
+    public MainCommand(CheckService checkService) {
         this.checkService = checkService;
     }
 
@@ -27,31 +28,25 @@ public class MainCommand implements Command {
             try {
                 page = Integer.parseInt(request.getParameter("page"));
             } catch (NumberFormatException e) {
-                return "/WEB-INF/error/404.jsp";
+                return "/WEB-INF/pages/404.jsp";
             }
         }
 
 
         long numberOfChecks = checkService.getNumberOfChecks();
         long totalPages = (long) Math.ceil((double) numberOfChecks / 6);
+        List <Check> allChecks= checkService.getAllChecks();
+        Collections.reverse(allChecks);
 
         List<Check> pageChecks = new ArrayList<>();
 
-        checkService.getAllChecks().forEach(check -> System.out.println(check.getId()));
-
-        System.out.println("--------------------------------");
         try {
-            pageChecks = checkService.getAllChecks().subList(page * 6, (page + 1) * 6);
+            pageChecks = allChecks.subList(page * 6, (page + 1) * 6);
         } catch (IndexOutOfBoundsException e) {
-            if (numberOfChecks!=0) {
-                pageChecks = checkService.getAllChecks().subList(page * 6, (int)(page*6+numberOfChecks%6));
-            }
-            else totalPages = 1;
+            if (numberOfChecks != 0) {
+                pageChecks = allChecks.subList(page * 6, (int) (page * 6 + numberOfChecks % 6));
+            } else totalPages = 1;
         }
-
-        System.out.println(numberOfChecks +", " + totalPages);
-
-        pageChecks.forEach(check -> System.out.println(check.getId()));
 
         request.setAttribute("checks", pageChecks);
         request.setAttribute("currentPage", page);
@@ -59,6 +54,6 @@ public class MainCommand implements Command {
         request.setAttribute("totalPages", totalPages);
 
 
-        return "/main.jsp";
+        return "/WEB-INF/pages/main.jsp";
     }
 }

@@ -29,21 +29,21 @@ public class ProductEditCommand implements Command {
 
         if (!(Objects.nonNull(amount) &&
                 Objects.nonNull(price))) {
-            return "/product_edit.jsp";
+            return "/WEB-INF/pages/product_edit.jsp";
         }
 
         Result checkAmount = new AmountValidator().validate(Long.parseLong(amount));
 
         if (!checkAmount.isValid()) {
             request.setAttribute("message", checkAmount.getMessage());
-            return "/product_edit.jsp";
+            return "/WEB-INF/pages/product_edit.jsp";
         }
 
         Result checkPrice = new PriceValidator().validate(new BigDecimal(price));
 
         if (!checkPrice.isValid()) {
             request.setAttribute("message", checkPrice.getMessage());
-            return "/product_edit.jsp";
+            return "/WEB-INF/pages/product_edit.jsp";
         }
 
         product.setAmount(Long.parseLong(amount));
@@ -51,7 +51,7 @@ public class ProductEditCommand implements Command {
 
         if (!productService.updateProduct(product)) {
             request.setAttribute("message", "Product exist!");
-            return "/product_edit.jsp";
+            return "/WEB-INF/pages/product_edit.jsp";
         }
 
         return "redirect:/storage";

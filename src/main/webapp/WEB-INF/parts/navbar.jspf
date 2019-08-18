@@ -24,7 +24,7 @@
             </c:if>
             <c:if test="${sessionScope.userRoles==null}">
             <li class="nav-item">
-                <a class="nav-link" href="/app/login">Login</a>
+                <a class="nav-link" href="/app/login"><fmt:message key="navbar.login"/></a>
             </li>
             </c:if>
             <c:if test="${sessionScope.userRoles.contains('USER')||

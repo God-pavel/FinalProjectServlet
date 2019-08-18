@@ -1,8 +1,8 @@
 package com.pasha.trainingcourse.controller.filter;
 
 
-import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.entity.User;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +15,9 @@ public class AuthFilter implements Filter {
 
     private final List<String> adminPaths = Arrays.asList("/index", "/logout", "/users", "/userEdit");
     private final List<String> userPaths = Arrays.asList("/index", "/main", "/createCheck", "/addByName", "/addById", "/closeCheck", "/storage", "/logout");
-    private final List<String> merchPaths = Arrays.asList("/index", "/merchandise", "/storage", "/logout","/productEdit");
+    private final List<String> merchPaths = Arrays.asList("/index", "/merchandise", "/storage", "/logout", "/productEdit");
     private final List<String> seniorPaths = Arrays.asList("/index", "/main", "/createCheck", "/addByName", "/addById", "/closeCheck", "/deleteCheck", "/deleteProduct", "/createXReport", "/createZReport", "/report", "/storage", "/logout");
-    private final List<String> defaultPaths = Arrays.asList("/index", "/login", "/registration");
+    private final List<String> defaultPaths = Arrays.asList("/index", "/login", "/registration", "/back.jpg");
     private Map<Role, List<String>> allowedPathPatterns = new HashMap<>();
 
     @Override

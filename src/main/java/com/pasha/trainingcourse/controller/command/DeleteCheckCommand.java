@@ -1,8 +1,6 @@
 package com.pasha.trainingcourse.controller.command;
 
-import com.pasha.trainingcourse.model.entity.Check;
 import com.pasha.trainingcourse.model.exception.CheckCantBeDeleted;
-import com.pasha.trainingcourse.model.exception.NotEnoughProductsException;
 import com.pasha.trainingcourse.model.service.CheckService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +23,8 @@ public class DeleteCheckCommand implements Command {
 
         } catch (CheckCantBeDeleted e) {
 
-            return "redirect:/main?message="+e.getMessage();
+            return "redirect:/main?message=" + e.getMessage();
         }
-
 
 
     }

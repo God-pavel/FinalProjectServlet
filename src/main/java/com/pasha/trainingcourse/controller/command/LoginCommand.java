@@ -21,15 +21,14 @@ public class LoginCommand implements Command {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (username == null || password == null) {
-            return "/login.jsp";
+            return "/WEB-INF/pages/login.jsp";
         }
 
         User user = userService.getUserByUsername(username);
-        if (user==null) {
+        if (user == null) {
             request.setAttribute("message", true);
-            return "/login.jsp";
+            return "/WEB-INF/pages/login.jsp";
         }
-
 
 
         if (user.getPassword().equals(password)) {
@@ -42,7 +41,7 @@ public class LoginCommand implements Command {
             return "redirect:/index";
         } else {
             request.setAttribute("message", true);
-            return "/login.jsp";
+            return "/WEB-INF/pages/login.jsp";
         }
     }
 }

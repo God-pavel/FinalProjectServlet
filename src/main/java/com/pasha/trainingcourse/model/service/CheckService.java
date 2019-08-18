@@ -48,7 +48,7 @@ public class CheckService {
 //        }
 //    }
 
-    public long getNumberOfChecks(){
+    public long getNumberOfChecks() {
         return getAllChecks().size();
     }
 
@@ -79,7 +79,7 @@ public class CheckService {
         }
     }
 
-    public void updateCheck(Check check) {
+    void updateCheck(Check check) {
         try (CheckDao checkDao = daoFactory.createCheckDao()) {
             checkDao.update(check);
         } catch (Exception e) {
@@ -127,7 +127,7 @@ public class CheckService {
         }
     }
 
-    private void createCheck(Check check){
+    private void createCheck(Check check) {
         try (CheckDao dao = daoFactory.createCheckDao()) {
             dao.create(check);
 
@@ -182,7 +182,7 @@ public class CheckService {
         return product.getPrice().doubleValue() * amount;
     }
 
-    private double calcTotal(Map<Product, Long> products) {
+    double calcTotal(Map<Product, Long> products) {
         List<Double> sums = products.keySet().stream()
                 .map(key -> calcHelper(key, products.get(key)))
                 .collect(Collectors.toList());
@@ -190,12 +190,14 @@ public class CheckService {
                 .reduce(0.0, (x, y) -> x + y);
     }
 
-    public void closeCheck(Long checkId) throws NotEnoughProductsException{
+    public void closeCheck(Long checkId) throws NotEnoughProductsException {
         Check check = getTemporaryCheckById(checkId);
         deleteTempCheck(check);
         check.getProductAmount().forEach(productService::takeAway);
         check.setToDelete(true);
-        if(check.getTotal().compareTo(new BigDecimal(0))==0){return;}
+        if (check.getTotal().compareTo(new BigDecimal(0)) == 0) {
+            return;
+        }
         createCheck(check);
     }
 

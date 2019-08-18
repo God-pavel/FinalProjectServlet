@@ -1,9 +1,9 @@
 package com.pasha.trainingcourse.model.dao.impl;
 
-import com.pasha.trainingcourse.model.entity.enums.Role;
 import com.pasha.trainingcourse.model.dao.UserDao;
 import com.pasha.trainingcourse.model.dao.mapper.UserMapper;
 import com.pasha.trainingcourse.model.entity.User;
+import com.pasha.trainingcourse.model.entity.enums.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,14 +43,14 @@ public class JDBCUserDao implements UserDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e,log,connection);
+            rollBackTransaction(e, log, connection);
         }
     }
 
     private void insertRolesToDb(Set<Role> roles, String username) {
         try {
             PreparedStatement st = connection.prepareStatement(SELECT_ID_FROM_USER);
-            st.setString(1,username);
+            st.setString(1, username);
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
@@ -62,8 +62,7 @@ public class JDBCUserDao implements UserDao {
                     ps.setString(2, role.name());
                     ps.executeUpdate();
                 }
-            }
-            else throw new SQLException();
+            } else throw new SQLException();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +129,7 @@ public class JDBCUserDao implements UserDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            rollBack(e,log,connection);
+            rollBackTransaction(e, log, connection);
         }
     }
 

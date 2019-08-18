@@ -16,12 +16,12 @@ public class CreateZReportCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        try{
+        try {
             HttpSession session = request.getSession();
             reportService.createZReport((User) session.getAttribute("user"));
             return "redirect:/report";
-        } catch (ZReportAlreadyCreatedException e){
-            return "redirect:/report?message="+e.getMessage();
+        } catch (ZReportAlreadyCreatedException e) {
+            return "redirect:/report?message=" + e.getMessage();
         }
     }
 }

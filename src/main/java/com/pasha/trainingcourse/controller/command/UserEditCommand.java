@@ -32,7 +32,7 @@ public class UserEditCommand implements Command {
         String username = request.getParameter("username");
         String[] roleNames = request.getParameterValues("roles");
         if (roleNames == null) {
-            return "/user_edit.jsp";
+            return "/WEB-INF/pages/user_edit.jsp";
         }
 
         Result checkUsername = new UsernameValidator().validate(username);
@@ -40,7 +40,7 @@ public class UserEditCommand implements Command {
 
         if (!checkUsername.isValid()) {
             request.setAttribute("message", checkUsername.getMessage());
-            return "/user_edit.jsp";
+            return "/WEB-INF/pages/user_edit.jsp";
         }
 
 
@@ -51,7 +51,7 @@ public class UserEditCommand implements Command {
         user.setRoles(roles);
         if (!userService.updateUser(user)) {
             request.setAttribute("message", "User with that username already exist!");
-            return "/user_edit.jsp";
+            return "/WEB-INF/pages/user_edit.jsp";
         }
 
         return "redirect:/users";

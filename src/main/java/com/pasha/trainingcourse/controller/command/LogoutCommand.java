@@ -11,6 +11,6 @@ public class LogoutCommand implements Command {
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();
-        return "/login.jsp";
+        return "/WEB-INF/pages/login.jsp";
     }
 }

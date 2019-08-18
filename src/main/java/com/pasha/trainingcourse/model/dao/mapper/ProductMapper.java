@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-public class ProductMapper implements ObjectMapper<Product>{
+public class ProductMapper implements ObjectMapper<Product> {
     @Override
     public Product extractFromResultSet(ResultSet rs) throws SQLException {
 

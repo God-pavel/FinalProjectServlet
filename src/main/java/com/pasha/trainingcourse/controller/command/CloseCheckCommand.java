@@ -1,6 +1,5 @@
 package com.pasha.trainingcourse.controller.command;
 
-import com.pasha.trainingcourse.model.entity.Check;
 import com.pasha.trainingcourse.model.exception.NotEnoughProductsException;
 import com.pasha.trainingcourse.model.service.CheckService;
 
@@ -19,7 +18,7 @@ public class CloseCheckCommand implements Command {
         String checkID = request.getRequestURI().replaceAll(".*/closeCheck/", "");
         try {
             checkService.closeCheck(Long.parseLong(checkID));
-        }catch (NotEnoughProductsException e){
+        } catch (NotEnoughProductsException e) {
             request.setAttribute("message", "Not enough products in storage");
             return "redirect:/createCheck/" + checkID;
         }

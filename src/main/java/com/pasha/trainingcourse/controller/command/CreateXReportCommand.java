@@ -1,7 +1,6 @@
 package com.pasha.trainingcourse.controller.command;
 
 import com.pasha.trainingcourse.model.entity.User;
-import com.pasha.trainingcourse.model.exception.ZReportAlreadyCreatedException;
 import com.pasha.trainingcourse.model.service.ReportService;
 
 import javax.servlet.http.HttpServletRequest;

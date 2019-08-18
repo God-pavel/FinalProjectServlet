@@ -33,7 +33,7 @@ public class ReportMapper implements ObjectMapper<Report> {
         BigDecimal total = rs.getBigDecimal("total");
         User user = userService.getUserById(rs.getLong("user_id"));
         ReportType type = ReportType.valueOf(rs.getString("type"));
-        Long checkId = rs.getLong("check_id");
+        long checkId = rs.getLong("check_id");
         if (checkId != 0) {
             checks.add(checkService.getCheckById(checkId));
         }
