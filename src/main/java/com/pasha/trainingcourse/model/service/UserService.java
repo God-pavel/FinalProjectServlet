@@ -60,11 +60,7 @@ public class UserService {
 
     public boolean updateUser(User user) {
         try (UserDao userDao = daoFactory.createUserDao()) {
-            User userFromDb = userDao.findByUsername(user.getUsername());
-            if (userFromDb != null) {
-                log.warn("login not unique!");
-                return false;
-            }
+
             userDao.update(user);
             return true;
         } catch (Exception e) {
